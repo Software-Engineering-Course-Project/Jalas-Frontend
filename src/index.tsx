@@ -7,12 +7,16 @@ import "src/resources/my-icons-collection/font/flaticon.css";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-import Main from "src/views/main/Main";
+import Poll from "src/views/poll/Poll";
+import Reservation from 'src/views/reservation/Reservation';
 
 
 ReactDOM.render(
   <Router>
-      <Route path="/main" component={Main} />
+    <div>
+      <Route path="/poll" component={Poll} />
+      <Route path="/reservation" component={Reservation} />
+    </div>
   </Router>,
   document.getElementById('root')
 );
