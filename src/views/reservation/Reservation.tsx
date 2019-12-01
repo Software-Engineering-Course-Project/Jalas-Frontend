@@ -3,19 +3,28 @@ import Header from "src/views/common/Header";
 import Footer from "src/views/common/Footer";
 import { toast, ToastContainer } from "react-toastify";
 import "src/scss/style.scss";
-import BootstrapTable from 'react-bootstrap-table';
-// var ReactBsTable  = require('react-bootstrap-table');
-// var BootstrapTable = ReactBsTable.BootstrapTable;
-const rowEvents = {
-    onClick: (e:any, row:any, rowIndex:any) => {
-
-    }
-};
+import { getReservation } from "src/api/ReservationAPI";
 
 export default class Reservation extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
     }
+
+    componentDidMount() {
+        const {
+            match: { params }
+        } = this.props;
+
+        getReservation(params.reservationId).then(res => {
+
+            console.log(res.data);
+            this.setState({
+                poll: res.data
+            });
+        }).catch(error => toast.warn(error.response));
+    }
+
+
 
     render() {
         return (
@@ -65,5 +74,7 @@ export default class Reservation extends Component<Props, State> {
     }
 }
 
-interface Props { }
+interface Props {
+    match:any;
+ }
 interface State { }

@@ -5,6 +5,7 @@ import "./Poll.scss";
 import { toast, ToastContainer } from "react-toastify";
 import { getPoll, Poll } from "src/api/PollAPI";
 import PollInfo from "src/views/poll/PollOption";
+import { Link } from "react-router-dom";
 
 
 
@@ -20,13 +21,24 @@ export default class poll extends Component<Props, State> {
 		}
 	}
 
-	// componentDidMount() {
-	// 	getPoll(this.state.poll.pollId).then(res => {
-	// 		this.setState({
-	// 			poll: res.data
-	// 		});
-	// 	}).catch(error => toast.warn(error.response.data));
-	// }
+	componentDidMount() {
+		const {
+			match: { params }
+		} = this.props;
+
+		getPoll(params.pollId).then(res => {
+
+			console.log(res.data);
+			var temp = this.state.poll;
+			temp.title = res.data[0].fields.title;
+
+
+
+			// this.setState({
+			// 	poll.title: res.data[0].fields.title
+			// });
+		}).catch(error => toast.warn(error.response));
+	}
 
 
 	render() {
@@ -34,7 +46,7 @@ export default class poll extends Component<Props, State> {
 		const AllPollOptions = this.state.poll.options.map(option => {
 			return (
 				<PollInfo pollInfo={option} onOptionClick={() => {
-
+					window.location.assign("/reservation/" + option.id);
 				}} />
 			);
 		});
@@ -52,15 +64,45 @@ export default class poll extends Component<Props, State> {
 										<table className="table table-hover">
 											<thead className="thead-dark">
 												<tr>
-
 													<th scope="col">تاریخ</th>
 													<th scope="col">زمان</th>
 													<th scope="col">تعداد موافقان</th>
 													<th scope="col">تعداد مخالفان</th>
+													<th scope="col"> </th>
 												</tr>
 											</thead>
 											<tbody>
 												{AllPollOptions}
+												<tr>
+													<td>1</td>
+													<td>1</td>
+													<td>1</td>
+													<td>1</td>
+													<td>
+														<Link to="/reservation/1">
+															<button
+																type="submit"
+																className="submit-button"
+															>
+																ثبت
+													</button>
+														</Link>
+
+													</td>
+												</tr>
+												<tr>
+													<td>1</td>
+													<td>1</td>
+													<td>1</td>
+													<td>1</td>
+													<td>
+														<button
+															type="submit"
+															className="submit-button">
+															ثبت
+													</button>
+													</td>
+												</tr>
 											</tbody>
 										</table>
 									</div>
@@ -77,7 +119,9 @@ export default class poll extends Component<Props, State> {
 }
 
 
-interface Props {}
+interface Props {
+	match: any;
+}
 
 interface State {
 	poll: Poll;

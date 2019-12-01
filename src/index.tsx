@@ -14,8 +14,8 @@ import Reservation from 'src/views/reservation/Reservation';
 ReactDOM.render(
   <Router>
     <div>
-      <Route path="/poll" component={Poll} />
-      <Route path="/reservation" component={Reservation} />
+      <Route path="/poll/:pollId" component={Poll} />
+      <Route path="/reservation/:reservationId" component={Reservation} />
     </div>
   </Router>,
   document.getElementById('root')

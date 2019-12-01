@@ -13,20 +13,16 @@ export default class PollInfo extends Component<Props, State> {
         return (
             <div>
                 <tr>
-                    <td>{this.props.pollInfo.date}</td>
-                    <td>{this.props.pollInfo.time}</td>
+                    <td>{this.props.pollInfo.start}</td>
+                    <td>{this.props.pollInfo.end}</td>
                     <td>{this.props.pollInfo.agreed}</td>
                     <td>{this.props.pollInfo.disagreed}</td>
                     <td>
-                        <div className="row justify-content-center">
-                            <div className="col-sm-4">
-                                <button
-                                    type="submit"
-                                    className="signupbtn submit-button">
-                                    ثبت
-								</button>
-                            </div>
-                        </div>
+                        <button
+                            type="submit"
+                            className="submit-button">
+                            ثبت
+						</button>
                     </td>
                 </tr>
             </div>

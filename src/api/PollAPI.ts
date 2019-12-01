@@ -1,5 +1,4 @@
 import API from "./API";
-import { Interface } from "readline";
 
 export const getPoll = (pollId: number) => {
 	return API.get("/poll/" + pollId);
@@ -12,8 +11,14 @@ export interface Poll{
 }
 
 export interface PollOption{
-    date: string;
-    time: string;
+    id:number;
+    start: Time;
+    end: Time;
     agreed: number;
     disagreed: number;
+}
+
+export interface Time{
+    date: string;
+    time:string;
 }
