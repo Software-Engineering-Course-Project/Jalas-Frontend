@@ -3,31 +3,58 @@ import Header from "src/views/common/Header";
 import Footer from "src/views/common/Footer";
 import { toast, ToastContainer } from "react-toastify";
 import "src/scss/style.scss";
-import { getReservation } from "src/api/ReservationAPI";
+import { getReservation, postOption, ReservedMeeting, RoomStatus } from "src/api/ReservationAPI";
+import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
+import Status from "src/views/status/Status"
 
 export default class Reservation extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
+        this.state = {
+            rooms: []
+        };
     }
+
 
     componentDidMount() {
         const {
             match: { params }
         } = this.props;
 
-        getReservation(params.reservationId).then(res => {
+        postOption(params.reservationId).catch(error => {
+            return <Redirect to={"/poll/" + params.pollId} />
+        });
 
-            console.log(res.data);
+        getReservation(params.reservationId).then(res => {
             this.setState({
-                poll: res.data
-            });
-        }).catch(error => toast.warn(error.response));
+                rooms: res.data.availableRooms
+            })
+        }).catch(error => {
+            toast.warn(error.response.data);
+            alert("please refresh page");
+        });
     }
 
-
-
     render() {
-        return (
+        const reservOptions = this.state.rooms.map(room => {
+            return (
+                <tr>
+                    <td>{room}</td>
+                    <td>
+                        <Link to={'/status/' + this.props.match.params.pollId + "/" + this.props.match.params.reservationId + "/" + room}>
+                            <button
+                                type="submit"
+                                className="submit-button">
+                                ثبت
+                            </button>
+                        </Link>
+                    </td >
+                </tr >
+            );
+        });
+
+        const reserveRoom = (
             <div>
                 <Header />
                 <main>
@@ -41,26 +68,13 @@ export default class Reservation extends Component<Props, State> {
                                             <thead className="thead-dark">
                                                 <tr>
                                                     <th scope="col">شماره اتاق</th>
+                                                    <th scope="col"> </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>12</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>15</td>
-                                                </tr>
+                                                {reservOptions}
                                             </tbody>
                                         </table>
-                                        <div className="row justify-content-center">
-                                            <div className="col-sm-4">
-                                                <button
-                                                    type="submit"
-                                                    className="submit-button">
-                                                    ثبت
-								                </button>
-                                            </div>
-                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -71,10 +85,19 @@ export default class Reservation extends Component<Props, State> {
                 <ToastContainer />
             </div>
         );
+
+
+        return (
+            <div>
+                {reserveRoom}
+            </div >
+        );
     }
 }
 
 interface Props {
-    match:any;
- }
-interface State { }
+    match: any;
+}
+interface State {
+    rooms: number[];
+}

@@ -9,13 +9,16 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import Poll from "src/views/poll/Poll";
 import Reservation from 'src/views/reservation/Reservation';
+import Status from  'src/views/status/Status';
+
 
 
 ReactDOM.render(
   <Router>
     <div>
       <Route path="/poll/:pollId" component={Poll} />
-      <Route path="/reservation/:reservationId" component={Reservation} />
+      <Route path="/reservation/:pollId/:reservationId" component={Reservation} />
+      <Route path="/status/:pollId/:reservationId/:room" component={Status}/>
     </div>
   </Router>,
   document.getElementById('root')

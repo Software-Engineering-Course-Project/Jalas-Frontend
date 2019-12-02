@@ -3,9 +3,10 @@ import Header from "src/views/common/Header";
 import Footer from "src/views/common/Footer";
 import "./Poll.scss";
 import { toast, ToastContainer } from "react-toastify";
-import { getPoll, Poll } from "src/api/PollAPI";
+import { getPoll, Poll, getOptions, PollOption } from "src/api/PollAPI";
 import PollInfo from "src/views/poll/PollOption";
 import { Link } from "react-router-dom";
+import { number } from "prop-types";
 
 
 
@@ -27,17 +28,30 @@ export default class poll extends Component<Props, State> {
 		} = this.props;
 
 		getPoll(params.pollId).then(res => {
-
-			console.log(res.data);
-			var temp = this.state.poll;
-			temp.title = res.data[0].fields.title;
-
-
-
-			// this.setState({
-			// 	poll.title: res.data[0].fields.title
-			// });
-		}).catch(error => toast.warn(error.response));
+			var pollTemp = this.state.poll;
+			pollTemp.title = res.data[0].fields.title;
+			pollTemp.pollId = res.data[0].fields.meeting;
+			getOptions(params.pollId).then(optRes => {
+				for (var i = 0; i < optRes.data.length ; i++) {
+					pollTemp.options.push({
+						id: optRes.data[i].pk,
+						start: {
+							date: optRes.data[i].fields.date,
+							time:optRes.data[i].fields.startTime
+						},
+						end: {
+							date: optRes.data[i].fields.date,
+							time:optRes.data[i].fields.endTime
+						},
+						agreed: optRes.data[i].fields.agree,
+						disagreed: optRes.data[i].fields.disagree
+					});
+				}
+				this.setState({
+					poll: pollTemp
+				});
+			}).catch(error => toast.warn(error.response));
+		}).catch(error => {toast.warn(error.response.data);});
 	}
 
 
@@ -45,12 +59,10 @@ export default class poll extends Component<Props, State> {
 
 		const AllPollOptions = this.state.poll.options.map(option => {
 			return (
-				<PollInfo pollInfo={option} onOptionClick={() => {
-					window.location.assign("/reservation/" + option.id);
-				}} />
+				<PollInfo pollInfo={option} pollID={this.state.poll.pollId} />
 			);
 		});
-
+		console.log(this.state.poll.options);
 		return (
 			<div>
 				<Header />
@@ -65,7 +77,8 @@ export default class poll extends Component<Props, State> {
 											<thead className="thead-dark">
 												<tr>
 													<th scope="col">تاریخ</th>
-													<th scope="col">زمان</th>
+													<th scope="col">زمان شروع</th>
+													<th scope="col">زمان پایان</th>
 													<th scope="col">تعداد موافقان</th>
 													<th scope="col">تعداد مخالفان</th>
 													<th scope="col"> </th>
@@ -73,36 +86,6 @@ export default class poll extends Component<Props, State> {
 											</thead>
 											<tbody>
 												{AllPollOptions}
-												<tr>
-													<td>1</td>
-													<td>1</td>
-													<td>1</td>
-													<td>1</td>
-													<td>
-														<Link to="/reservation/1">
-															<button
-																type="submit"
-																className="submit-button"
-															>
-																ثبت
-													</button>
-														</Link>
-
-													</td>
-												</tr>
-												<tr>
-													<td>1</td>
-													<td>1</td>
-													<td>1</td>
-													<td>1</td>
-													<td>
-														<button
-															type="submit"
-															className="submit-button">
-															ثبت
-													</button>
-													</td>
-												</tr>
 											</tbody>
 										</table>
 									</div>
