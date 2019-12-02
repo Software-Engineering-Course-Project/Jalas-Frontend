@@ -27,12 +27,15 @@ export default class Reservation extends Component<Props, State> {
         });
 
         getReservation(params.reservationId).then(res => {
+            if(res.data.availableRooms.length == 0){
+                alert("در این ساعت اتاقی موجود نمی‌باشد.");
+            }
             this.setState({
                 rooms: res.data.availableRooms
             })
         }).catch(error => {
-            toast.warn(error.response.data);
-            alert("please refresh page");
+            // toast.warn(error.response.data);
+            alert("سیستم رزواسیون پاسخگو نمی‌باشد. لطفا صفحه را به روز کنید.");
         });
     }
 

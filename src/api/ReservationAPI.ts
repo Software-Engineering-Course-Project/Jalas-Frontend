@@ -13,8 +13,15 @@ export const postRoom = (roomNum: number, optionID:number) =>{
 	return API.get("/set_room/" + roomNum + "/" + optionID);
 };
 
+export const getMeeting = (optionId: number) =>{
+	return API.get("/show_meeting/" + optionId);
+}
 
-export interface RoomStatus {
+export const cancelMetting = (optionId: number) =>{
+	return API.get("/set_cancel/" + optionId);
+}
+
+export const RoomStatus = {
     1: 'در انتظار اتاق',
     2: 'رزرو کامل',
     3: 'برگزار شده',
