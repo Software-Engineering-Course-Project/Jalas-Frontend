@@ -30,6 +30,7 @@ export default class Reservation extends Component<Props, State> {
             if(res.data.availableRooms.length == 0){
                 alert("در این ساعت اتاقی موجود نمی‌باشد.");
             }
+            
             this.setState({
                 rooms: res.data.availableRooms
             })

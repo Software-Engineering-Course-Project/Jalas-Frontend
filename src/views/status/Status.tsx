@@ -142,7 +142,7 @@ export default class Status extends Component<Props, State> {
                                                                         toast.warn(error.response.data);
                                                                     });
                                                                 }}>
-                                                                انصراف
+                                                                    لغو
 						                                    </button>
                                                         </td>
                                                     </Link>
