@@ -1,0 +1,26 @@
+image: node:latest
+
+stages:
+  - build
+  - unitTest
+  - integerationTest
+
+cache:
+  paths:
+    - node_modules/
+
+install_dependencies:
+  stage: build
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+testing_unit:
+  stage: unitTest
+  script: npm test
+
+testing_integeration:
+  stage: integerationTest
+  script: npm test
