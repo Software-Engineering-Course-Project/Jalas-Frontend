@@ -19,8 +19,12 @@ install_dependencies:
 
 testing_unit:
   stage: unitTest
-  script: npm test
+  script:
+    - npm run build
+    - npm test
 
 testing_integeration:
   stage: integerationTest
-  script: npm test
+  script:
+    - npm run build
+    - npm test
