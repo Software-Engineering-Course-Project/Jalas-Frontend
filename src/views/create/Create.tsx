@@ -44,7 +44,6 @@ export default class Create extends Component<Props, State>  {
                 } as any);
             }
         }
-        console.log(this.state.items);
     };
 
     isValid(email: any) {
@@ -79,6 +78,10 @@ export default class Create extends Component<Props, State>  {
             error: null
         });
     };
+
+    addOption = () => {
+
+    }
 
     render() {
 
@@ -157,7 +160,8 @@ export default class Create extends Component<Props, State>  {
 
                     <button
                         type="submit"
-                        className="click-button">
+                        className="click-button"
+                        onClick={this.addOption}>
                         +
 					</button>
                 </div>

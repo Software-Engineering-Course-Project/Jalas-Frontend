@@ -10,7 +10,8 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Poll from "src/views/poll/Poll";
 import Reservation from 'src/views/reservation/Reservation';
 import Status from  'src/views/status/Status';
-import Create from 'src/views/create/Create'
+import Create from 'src/views/create/Create';
+import Vote from 'src/views/vote/Vote';
 
 
 
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path="/reservation/:pollId/:reservationId" component={Reservation} />
       <Route path="/status/:pollId/:reservationId/:room" component={Status}/>
       <Route path="/create" component={Create}/>
+      <Route path="/vote/:pollId" component={Vote} />
     </div>
   </Router>,
   document.getElementById('root')
