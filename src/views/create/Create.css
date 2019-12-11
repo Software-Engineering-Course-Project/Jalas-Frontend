@@ -1,0 +1,122 @@
+.text-box {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 1em 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+.text-box:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.right-placeholder::-webkit-input-placeholder {
+  direction: rtl;
+  text-align: right;
+}
+
+.right-placeholder:-ms-input-placeholder {
+  direction: rtl;
+  text-align: right;
+}
+
+.right-placeholder::-ms-input-placeholder {
+  direction: rtl;
+  text-align: right;
+}
+
+.right-placeholder::placeholder {
+  direction: rtl;
+  text-align: right;
+}
+
+.right-placeholder {
+  direction: ltr;
+  text-align: left;
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+main {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.register-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 5px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.register-button:hover {
+  opacity: 1;
+}
+
+.register-form {
+  background-color: white;
+  padding: 45px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  border-radius: 24px;
+}
+
+.click-button {
+  background-color: #2d66a7;
+  color: white;
+  font-size: larger;
+  border-radius: 5px;
+  height: 40%;
+  width: 100%;
+  margin-top: 2.5rem;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.click-button:hover {
+  opacity: 1;
+}
+
+.delete-button {
+  background-color: #941212;
+  color: white;
+  font-size: x-large;
+  border-radius: 5px;
+  height: 40%;
+  width: 100%;
+  margin-top: 2.5rem;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.delete-button:hover {
+  opacity: 1;
+}
+
+.text-margin {
+  margin-top: 2.3rem;
+}
+/*# sourceMappingURL=Create.css.map */

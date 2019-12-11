@@ -5,8 +5,6 @@ import "./Poll.scss";
 import { toast, ToastContainer } from "react-toastify";
 import { getPoll, Poll, getOptions, PollOption } from "src/api/PollAPI";
 import PollInfo from "src/views/poll/PollOption";
-import { Link } from "react-router-dom";
-import { number } from "prop-types";
 
 
 
