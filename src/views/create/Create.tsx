@@ -3,7 +3,6 @@ import Header from "src/views/common/Header";
 import Footer from "src/views/common/Footer";
 import "./Create.scss";
 import { toast, ToastContainer } from "react-toastify";
-import Chip from '@material-ui/core/Chip';
 
 
 export default class Create extends Component<Props, State>  {
@@ -12,7 +11,9 @@ export default class Create extends Component<Props, State>  {
         this.state = {
             items: [],
             value: "",
-            error: null
+            error: null,
+            options: [this.option(0)],
+            oId: 0
         };
     }
 
@@ -27,8 +28,8 @@ export default class Create extends Component<Props, State>  {
 
     handleDelete = (item: any) => {
         this.setState({
-            items: this.state.items.filter((i: any) => { i !== item })
-        } as any);
+            items: this.state.items.filter((i:any) => { i !== item })
+        });
     };
 
     handleKeyDown = (evt: any) => {
@@ -79,8 +80,89 @@ export default class Create extends Component<Props, State>  {
         });
     };
 
-    addOption = () => {
+    addOption = (event: any) => {
+        event.preventDefault();
+        this.setState({
+            oId: this.state.oId + 1
+        })
+        this.setState({
+            options: [...this.state.options, this.option(this.state.oId + 1)]
+        });
+    }
 
+    deleteOption = (event: any, ID: any) => {
+        event.preventDefault();
+        var numberOfOptions = 0;
+        this.state.options.map((option:any)=>{
+            console.log(option);
+            if (option != "") {
+                numberOfOptions = numberOfOptions + 1;
+            }
+        });
+        
+        if (numberOfOptions > 1) {
+            const updatedArray = [...this.state.options];
+            updatedArray[ID] = "";
+            this.setState({
+                options: updatedArray,
+            });
+        }else{
+            toast.warn("باید حتما یک زمان برای جلسه انتخاب کنید");
+        }
+    }
+
+    option = (oId: any) => {
+        var ID = oId;
+        return (
+            <div className="row">
+                <div className="col-md-4">
+                    <input
+                        type="text"
+                        className="text-box"
+                        placeholder="تاریخ"
+                        name="title"
+                        onChange={this.handleInputChange}
+                    />
+                </div>
+                <div className="col-md-3">
+
+                    <input
+                        type="text"
+                        className="text-box "
+                        placeholder="زمان شروع"
+                        name="title"
+                        onChange={this.handleInputChange}
+                    />
+                </div>
+                <div className="col-md-3">
+
+                    <input
+                        type="text"
+                        className="text-box"
+                        placeholder="زمان پایان"
+                        name="title"
+                        onChange={this.handleInputChange}
+
+                    />
+                </div>
+                <div className="col-md-1">
+
+                    <button
+                        className="click-button"
+                        onClick={this.addOption}>
+                        +
+                </button>
+                </div>
+                <div className="col-md-1">
+                    <button
+                        className="delete-button"
+                        onClick={(e) => this.deleteOption(e, ID)}
+                    >
+                        -
+            </button>
+                </div>
+            </div>
+        );
     }
 
     render() {
@@ -118,65 +200,6 @@ export default class Create extends Component<Props, State>  {
             </div>
         );
 
-        const options = (
-            <div className="row">
-                <div className="col-md-4">
-                    <label>
-                        <b>گزینه‌ها</b>
-                    </label>
-
-                    <input
-                        type="text"
-                        className="text-box"
-                        placeholder="تاریخ"
-                        name="title"
-                        onChange={this.handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="col-md-3">
-
-                    <input
-                        type="text"
-                        className="text-box text-margin"
-                        placeholder="زمان شروع"
-                        name="title"
-                        onChange={this.handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="col-md-3">
-
-                    <input
-                        type="text"
-                        className="text-box text-margin"
-                        placeholder="زمان پایان"
-                        name="title"
-                        onChange={this.handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="col-md-1">
-
-                    <button
-                        type="submit"
-                        className="click-button"
-                        onClick={this.addOption}>
-                        +
-					</button>
-                </div>
-                <div className="col-md-1">
-
-                    <button
-                        type="submit"
-                        className="delete-button"
-                    >
-                        -
-				</button>
-                </div>
-            </div>
-        );
-
         return (
             <div>
                 <Header />
@@ -200,7 +223,7 @@ export default class Create extends Component<Props, State>  {
                                                 placeholder="عنوان جلسه را وارد کنید"
                                                 name="title"
                                                 onChange={this.handleInputChange}
-                                                required
+
                                             />
                                         </div>
                                     </div>
@@ -209,7 +232,10 @@ export default class Create extends Component<Props, State>  {
                                         {participants}
                                     </div>
                                     <div>
-                                        {options}
+                                        <label>
+                                            <b>گزینه‌ها</b>
+                                        </label>
+                                        {this.state.options}
                                     </div>
 
                                     <div className="row justify-content-center">
@@ -234,10 +260,12 @@ export default class Create extends Component<Props, State>  {
     }
 }
 
-interface Props {}
+interface Props { }
 
 interface State {
     items: any,
     value: any,
-    error: any
+    error: any,
+    options: any,
+    oId: any
 }
