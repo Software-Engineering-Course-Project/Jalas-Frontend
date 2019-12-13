@@ -20,11 +20,11 @@ install_dependencies:
 testing_unit:
   stage: unitTest
   script:
-    - npm run build
+    - npm install --save-dev jest
     - npm test
 
 testing_integeration:
   stage: integerationTest
   script:
-    - npm run build
+    - npm install --save-dev jest
     - npm test
