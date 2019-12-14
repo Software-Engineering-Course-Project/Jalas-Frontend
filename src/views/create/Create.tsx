@@ -3,6 +3,7 @@ import Header from "src/views/common/Header";
 import Footer from "src/views/common/Footer";
 import "./Create.scss";
 import { toast, ToastContainer } from "react-toastify";
+import {postCreatePoll} from 'src/api/CreateAPI';
 
 
 export default class Create extends Component<Props, State>  {
@@ -13,18 +14,49 @@ export default class Create extends Component<Props, State>  {
             value: "",
             error: null,
             options: [this.option(0)],
-            oId: 0
+            oId: 0,
+            title:"",
+            text:"",
+            selects:[{
+                start_time:"",
+                end_time:"",
+                date:""
+            }]
         };
     }
 
     handleInputChange = (event: any) => {
+
         const target = event.target;
-        const name = target.name;
+		const name = target.name;
         const value = target.value;
+        
         this.setState({
-            [name]: value
+            [name]:value
         } as any);
+        
     };
+
+    handleOptionInputChange = (event:any) =>{
+        const target = event.target;
+		const name = target.name;
+        const value = target.value;
+        var splited = name.split("-");
+        var textName = splited[0];
+        var index = splited[1];
+        var updatedArray = [...this.state.selects];
+        if(textName == "date"){
+        updatedArray[index].date = value;
+        }else if(textName == "start_time"){
+            updatedArray[index].start_time = value;
+        }else if(textName == "end_time"){
+            updatedArray[index].end_time = value;
+        }
+        this.setState({
+            selects: updatedArray,
+        } as any);
+        console.log(this.state.selects);
+    }
 
     handleDelete = (item: any) => {
         this.setState({
@@ -88,6 +120,15 @@ export default class Create extends Component<Props, State>  {
         this.setState({
             options: [...this.state.options, this.option(this.state.oId + 1)]
         });
+        var temp = {
+            start_time:"",
+            end_time:"",
+            date:""
+        };
+
+        this.setState({
+            selects:[...this.state.selects, temp]
+        } as any)
     }
 
     deleteOption = (event: any, ID: any) => {
@@ -99,6 +140,16 @@ export default class Create extends Component<Props, State>  {
                 numberOfOptions = numberOfOptions + 1;
             }
         });
+
+        const updatedSelectArray = [...this.state.selects];
+            updatedSelectArray[ID] = {
+                start_time:"",
+                end_time:"",
+                date:""
+            };
+            this.setState({
+                selects: updatedSelectArray,
+            } as any);
         
         if (numberOfOptions > 1) {
             const updatedArray = [...this.state.options];
@@ -119,9 +170,10 @@ export default class Create extends Component<Props, State>  {
                     <input
                         type="text"
                         className="text-box"
-                        placeholder="تاریخ"
-                        name="date"
-                        onChange={this.handleInputChange}
+                        placeholder="تاریخ: dd-mm-yyyy "
+                        name={"date-"+oId}
+                        onChange={this.handleOptionInputChange}
+                        required
                     />
                 </div>
                 <div className="col-md-3">
@@ -129,8 +181,9 @@ export default class Create extends Component<Props, State>  {
                         type="text"
                         className="text-box "
                         placeholder="زمان شروع"
-                        name="startTime"
-                        onChange={this.handleInputChange}
+                        name={"start_time-"+oId}
+                        onChange={this.handleOptionInputChange}
+                        required
                     />
                 </div>
                 <div className="col-md-3">
@@ -138,8 +191,9 @@ export default class Create extends Component<Props, State>  {
                         type="text"
                         className="text-box"
                         placeholder="زمان پایان"
-                        name="endTime"
-                        onChange={this.handleInputChange}
+                        name={"end_time-"+oId}
+                        onChange={this.handleOptionInputChange}
+                        required
                     />
                 </div>
                 <div className="col-md-1">
@@ -159,6 +213,29 @@ export default class Create extends Component<Props, State>  {
                 </div>
             </div>
         );
+    }
+
+    submit = ()=>{
+        alert("asd");
+        var i;
+        var options = [];
+        for(i=0 ; i < this.state.selects.length ; i++){
+            if(this.state.selects[i].date != ""){
+                options.push(this.state.selects[i]);
+            }
+        }
+
+        var content = {
+            title: this.state.title,
+            text: this.state.text,
+            participants: this.state.items,
+            selects:options
+        };
+
+        postCreatePoll(content).then( (res:any)=>{
+            console.log(res);
+        }).catch(error => {toast.warn(error.response.data);})
+       
     }
 
     render() {
@@ -204,6 +281,7 @@ export default class Create extends Component<Props, State>  {
                         <div className="row justify-content-center align-items-center main-height">
                             <div className="col-md-9">
                                 <form
+                                    onSubmit={this.submit}
                                     className="py-3 px-5"
                                 >
                                     <h1 className="center-text"> ساخت نظرسنجی</h1>
@@ -219,7 +297,7 @@ export default class Create extends Component<Props, State>  {
                                                 placeholder="عنوان جلسه را وارد کنید"
                                                 name="title"
                                                 onChange={this.handleInputChange}
-
+                                                required                                            
                                             />
                                         </div>
                                     </div>
@@ -238,7 +316,8 @@ export default class Create extends Component<Props, State>  {
                                         <div className="col-sm-4">
                                             <button
                                                 type="submit"
-                                                className="signupbtn register-button mt-3">
+                                                className="signupbtn register-button mt-3"
+                                                >
                                                 ثبت
 											</button>
                                         </div>
@@ -256,12 +335,19 @@ export default class Create extends Component<Props, State>  {
     }
 }
 
-interface Props { }
+interface Props {}
 
 interface State {
     items: any,
     value: any,
     error: any,
     options: any,
-    oId: any
+    oId: any,
+    title:any,
+    text:any,
+    selects:[{
+        date:any,
+        start_time:any,
+        end_time:any
+    }]
 }

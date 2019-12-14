@@ -2,23 +2,23 @@ import API from "./API";
 import {Time} from "src/api/PollAPI";
 
 export const getReservation = (optionID: number) => {
-	return API.get("/available_room/" + optionID);
+	return API.get("/reservation/available_room/" + optionID);
 };
 
 export const postOption = (optionID:number) => {
-	return API.get("/set_date/" + optionID);
+	return API.get("/reservation/set_date/" + optionID);
 };
 
 export const postRoom = (roomNum: number, optionID:number) =>{
-	return API.get("/set_room/" + roomNum + "/" + optionID);
+	return API.get("/reservation/set_room/" + roomNum + "/" + optionID);
 };
 
 export const getMeeting = (optionId: number) =>{
-	return API.get("/show_meeting/" + optionId);
+	return API.get("/meeting/show_meeting/" + optionId);
 }
 
 export const cancelMetting = (optionId: number) =>{
-	return API.get("/set_cancel/" + optionId);
+	return API.get("/reservation/set_cancel/" + optionId);
 }
 
 export const RoomStatus = {

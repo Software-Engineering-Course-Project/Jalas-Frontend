@@ -1,11 +1,11 @@
 import API from "./API";
 
 export const getPoll = (pollId: number) => {
-	return API.get("/poll/" + pollId);
+	return API.get("/poll/poll/" + pollId);
 };
 
 export const getOptions = (pollId: number) =>{
-    return API.get("/selects/" + pollId);
+    return API.get("/poll/selects/" + pollId);
 };
 
 export interface Poll{
