@@ -55,7 +55,7 @@ export default class Create extends Component<Props, State>  {
         this.setState({
             selects: updatedArray,
         } as any);
-        console.log(this.state.selects);
+        
     }
 
     handleDelete = (item: any) => {

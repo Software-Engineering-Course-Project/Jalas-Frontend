@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "src/scss/style.scss";
 import VoteOption from 'src/views/vote/VoteOption';
 import "src/views/vote/Vote.scss";
-import { getPollTime, getPollUser } from 'src/api/VoteAPI';
+import { getPollTime, getPollUser, postVote } from 'src/api/VoteAPI';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { getPoll } from 'src/api/PollAPI';
@@ -21,7 +21,6 @@ export default class Status extends Component<Props, State> {
             name:"",
             vote:[]
         }
-
     }
 
     handleInputChange = (event: any) => {
@@ -57,7 +56,14 @@ export default class Status extends Component<Props, State> {
                 }
                 this.setState({
                     times: [...this.state.times, temp]
-                })
+                });
+                var ts = [];
+                for(var i = 0 ; i < this.state.times.length ; i++){
+                    ts.push(0);
+                }
+                this.setState({
+                    vote: ts
+                });
             })
         }).catch(error => toast.warn(error.response));
 
@@ -74,15 +80,41 @@ export default class Status extends Component<Props, State> {
         }).catch(error => toast.warn(error.response));
     }
 
+    checkOption=(event:any)=> {
+        const target = event.target;
+		const name = target.name;
+        const value = target.value;
+        console.log(name);
+        var splited = name.split("-");
+        var index = splited[1];
+        var updatedArray = [...this.state.vote];
+        if (updatedArray[index]== 1) {
+            updatedArray[index] = 0;
+            this.setState({
+                vote: updatedArray
+            });
+        } else if(updatedArray[index]== 0){
+            updatedArray[index] = 1;
+            this.setState({
+                vote: updatedArray
+            });
+        }
+        this.setState({
+            selects: updatedArray,
+        } as any);
+    }
+
     checkbox = (number: any) => {
         var temp = [];
         for (var i = 0; i < number; i++) {
             temp.push(
-                <td className="checkbox-size center-text">
+                <td className="checkbox-size center-text" >
                     <FormControlLabel
                         control={
                             <Checkbox
+                                name={"ckeckbox-" + i}
                                 color="primary"
+                                onChange={(e:any)=>this.checkOption(e)}
                             />
                         }
                         label=""
@@ -91,6 +123,19 @@ export default class Status extends Component<Props, State> {
 
         }
         return (temp);
+    }
+
+    submit = () =>{
+        const {
+            match: { params }
+        } = this.props;
+        var data= {
+            name:this.state.name,
+            vote:this.state.vote
+        };
+
+        postVote(params.pollId,data).catch(error => { toast.warn(error.response);});
+
     }
 
     render() {
@@ -120,7 +165,7 @@ export default class Status extends Component<Props, State> {
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center main-height">
                             <div className="col-md-9">
-                                <form className="py-3 px-5">
+                                <form className="py-3 px-5" onSubmit={this.submit}>
                                     <h1 className="center-text m-4">موضوع:{this.state.title}</h1>
                                     <div >
                                         <table className="table table-bordered">
