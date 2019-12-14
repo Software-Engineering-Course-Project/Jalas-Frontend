@@ -216,7 +216,6 @@ export default class Create extends Component<Props, State>  {
     }
 
     submit = ()=>{
-        alert("asd");
         var i;
         var options = [];
         for(i=0 ; i < this.state.selects.length ; i++){
@@ -233,7 +232,7 @@ export default class Create extends Component<Props, State>  {
         };
 
         postCreatePoll(content).then( (res:any)=>{
-            console.log(res);
+            alert(res.data.poll_id);
         }).catch(error => {toast.warn(error.response.data);})
        
     }

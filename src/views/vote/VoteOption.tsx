@@ -3,7 +3,6 @@ import "src/scss/style.scss";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import "src/views/vote/Vote.scss";
-import CheckBoxIcon from "material-ui-icons/CheckBox";
 
 export default class PollInfo extends Component<Props, State> {
     constructor(props: Props) {
@@ -26,51 +25,56 @@ export default class PollInfo extends Component<Props, State> {
         }
     };
 
-    render() {
-        return (
-            <tr>
-                <th>
-                    <input
-                        type="text"
-                        className="text-box col-5"
-                        placeholder="نام خود را وارد کنید"
-                        name="name"
-                        // onChange={this.handleInputChange}
-                    />
-                </th>
+    checkbox = (checked: any) => {
+        if (checked == 1) {
+            return (
                 <td className="checkbox-size center-text">
                     <FormControlLabel
                         control={
                             <Checkbox
-                            // onChange={this.handleChange()}
-                                value="true"
                                 color="primary"
-                                
-                                // checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
                             />
                         }
                         label=""
+                        checked
                     />
                 </td>
-                <td>
+            );
+        } else if (checked == 0) {
+            return (
+                <td className="checkbox-size center-text">
                     <FormControlLabel
                         control={
                             <Checkbox
-
-                                value="true"
                                 color="primary"
                             />
                         }
                         label=""
+                        checked={false}
                     />
                 </td>
-            </tr>
-        );
+            );
+        }
+    }
+
+
+
+    render() {
+        const full = ( <tr>
+            <th>
+                {this.props.name}
+            </th>
+            {this.props.options ? this.props.options.map((option: any) => this.checkbox(option)) : <div/>}
+        </tr>)
+        
+        return full;
     }
 }
 
 interface Props {
-
+    name: any,
+    options: any,
+    numOfOptions:any
 }
 
 interface State {
