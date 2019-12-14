@@ -3,7 +3,7 @@ import Header from "src/views/common/Header";
 import Footer from "src/views/common/Footer";
 import "./Create.scss";
 import { toast, ToastContainer } from "react-toastify";
-import {postCreatePoll} from 'src/api/CreateAPI';
+import {postCreatePoll, getPollId} from 'src/api/CreateAPI';
 
 
 export default class Create extends Component<Props, State>  {
@@ -231,10 +231,12 @@ export default class Create extends Component<Props, State>  {
             selects:options
         };
 
-        postCreatePoll(content).then( (res:any)=>{
-            alert(res.data.poll_id);
-        }).catch(error => {toast.warn(error.response.data);})
-       
+        postCreatePoll(content).catch(error => {toast.warn(error.response.data);})
+        
+        getPollId().then(res =>{
+            setInterval(()=>{},1000);
+            window.location.assign("http://localhost:3000/poll/"+res.data.pollId);
+        })
     }
 
     render() {
