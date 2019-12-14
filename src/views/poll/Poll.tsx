@@ -60,7 +60,6 @@ export default class poll extends Component<Props, State> {
 				<PollInfo pollInfo={option} pollID={this.state.poll.pollId} />
 			);
 		});
-		console.log(this.state.poll.options);
 		return (
 			<div>
 				<Header />

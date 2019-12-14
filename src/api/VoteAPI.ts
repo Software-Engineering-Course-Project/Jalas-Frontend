@@ -10,5 +10,5 @@ export const getPollUser = (pollId:number) =>{
 
 
 export const postVote = (pollId:number,date:any)=>{
-    return API.post("/poll/vote/" + pollId + date);
+    return API.post("/poll/vote/" + pollId , date);
 }

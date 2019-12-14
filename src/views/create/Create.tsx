@@ -135,7 +135,6 @@ export default class Create extends Component<Props, State>  {
         event.preventDefault();
         var numberOfOptions = 0;
         this.state.options.map((option:any)=>{
-            console.log(option);
             if (option != "") {
                 numberOfOptions = numberOfOptions + 1;
             }
@@ -228,15 +227,12 @@ export default class Create extends Component<Props, State>  {
             title: this.state.title,
             text: this.state.text,
             participants: this.state.items,
-            selects:options
+            selects:options,
+            link:"http://localhost:3000/vote/"
         };
 
         postCreatePoll(content).catch(error => {toast.warn(error.response.data);})
-        
-        getPollId().then(res =>{
-            setInterval(()=>{},1000);
-            window.location.assign("http://localhost:3000/poll/"+res.data.pollId);
-        })
+        toast.success("جلسه با موفقیت ساخته شد.");
     }
 
     render() {

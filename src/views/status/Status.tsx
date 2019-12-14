@@ -37,7 +37,6 @@ export default class Status extends Component<Props, State> {
             match: { params }
         } = this.props;
         getMeeting(params.reservationId).then((res) => {
-            console.log(res);
             var temp = this.state.reservedRoom;
             temp.title = res.data[0].fields.title;
             temp.pollId = res.data[0].fields.pollId;
@@ -62,7 +61,6 @@ export default class Status extends Component<Props, State> {
         } = this.props;
 
         postRoom(params.room, params.reservationId).then((res) => {
-            console.log(res);
             var temp = this.state.reservedRoom;
             temp.title = res.data[0].fields.title;
             temp.pollId = res.data[0].fields.pollId;

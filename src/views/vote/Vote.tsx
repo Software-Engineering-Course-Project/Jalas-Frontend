@@ -41,7 +41,6 @@ export default class Status extends Component<Props, State> {
         } = this.props;
 
         getPoll(params.pollId).then(res => {
-            console.log(res);
             this.setState({
                 title: res.data[0].fields.title
             })
@@ -84,7 +83,6 @@ export default class Status extends Component<Props, State> {
         const target = event.target;
 		const name = target.name;
         const value = target.value;
-        console.log(name);
         var splited = name.split("-");
         var index = splited[1];
         var updatedArray = [...this.state.vote];
