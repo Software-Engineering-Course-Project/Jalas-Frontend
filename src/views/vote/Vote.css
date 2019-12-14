@@ -1,0 +1,22 @@
+.table-wrapper {
+  max-height: 100px;
+  overflow: auto;
+  display: inline-block;
+}
+
+.text-box {
+  margin: 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+.text-box:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.checkbox-size {
+  font-size: xx-large;
+}
+/*# sourceMappingURL=Vote.css.map */

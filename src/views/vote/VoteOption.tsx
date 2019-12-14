@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import "src/scss/style.scss";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
-
+import "src/views/vote/Vote.scss";
+import CheckBoxIcon from "material-ui-icons/CheckBox";
 
 export default class PollInfo extends Component<Props, State> {
     constructor(props: Props) {
@@ -13,12 +14,12 @@ export default class PollInfo extends Component<Props, State> {
     }
 
     handleChange = () => (event: any) => {
-        
+
         if (this.state.checked == true) {
             this.setState({
                 checked: false
             });
-        }else{
+        } else {
             this.setState({
                 checked: true
             });
@@ -28,15 +29,35 @@ export default class PollInfo extends Component<Props, State> {
     render() {
         return (
             <tr>
-                <td>12/11/11</td>
-                <td>12:00</td>
-                <td>13:00</td>
+                <th>
+                    <input
+                        type="text"
+                        className="text-box col-5"
+                        placeholder="نام خود را وارد کنید"
+                        name="name"
+                        // onChange={this.handleInputChange}
+                    />
+                </th>
+                <td className="checkbox-size center-text">
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                            // onChange={this.handleChange()}
+                                value="true"
+                                color="primary"
+                                
+                                // checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
+                            />
+                        }
+                        label=""
+                    />
+                </td>
                 <td>
                     <FormControlLabel
                         control={
                             <Checkbox
-                                onChange={this.handleChange()}
-                                value="checked"
+
+                                value="true"
                                 color="primary"
                             />
                         }

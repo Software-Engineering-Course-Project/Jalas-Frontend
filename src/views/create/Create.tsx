@@ -28,7 +28,7 @@ export default class Create extends Component<Props, State>  {
 
     handleDelete = (item: any) => {
         this.setState({
-            items: this.state.items.filter((i:any) => { i !== item })
+            items: this.state.items.filter((i:any) =>  i !== item)
         });
     };
 
@@ -114,39 +114,35 @@ export default class Create extends Component<Props, State>  {
     option = (oId: any) => {
         var ID = oId;
         return (
-            <div className="row">
+            <div className="row mb-3">
                 <div className="col-md-4">
                     <input
                         type="text"
                         className="text-box"
                         placeholder="تاریخ"
-                        name="title"
+                        name="date"
                         onChange={this.handleInputChange}
                     />
                 </div>
                 <div className="col-md-3">
-
                     <input
                         type="text"
                         className="text-box "
                         placeholder="زمان شروع"
-                        name="title"
+                        name="startTime"
                         onChange={this.handleInputChange}
                     />
                 </div>
                 <div className="col-md-3">
-
                     <input
                         type="text"
                         className="text-box"
                         placeholder="زمان پایان"
-                        name="title"
+                        name="endTime"
                         onChange={this.handleInputChange}
-
                     />
                 </div>
                 <div className="col-md-1">
-
                     <button
                         className="click-button"
                         onClick={this.addOption}>
@@ -170,7 +166,7 @@ export default class Create extends Component<Props, State>  {
         const participants = (
             <div className="row">
                 <div className="col-md-12">
-                    <label>
+                    <label className="mt-3">
                         <b>شرکت کنندگان</b>
                     </label>
 
@@ -208,7 +204,7 @@ export default class Create extends Component<Props, State>  {
                         <div className="row justify-content-center align-items-center main-height">
                             <div className="col-md-9">
                                 <form
-                                    className="register-form py-3 px-5"
+                                    className="py-3 px-5"
                                 >
                                     <h1 className="center-text"> ساخت نظرسنجی</h1>
                                     <hr />
@@ -232,7 +228,7 @@ export default class Create extends Component<Props, State>  {
                                         {participants}
                                     </div>
                                     <div>
-                                        <label>
+                                        <label className="mt-3">
                                             <b>گزینه‌ها</b>
                                         </label>
                                         {this.state.options}
@@ -242,7 +238,7 @@ export default class Create extends Component<Props, State>  {
                                         <div className="col-sm-4">
                                             <button
                                                 type="submit"
-                                                className="signupbtn register-button">
+                                                className="signupbtn register-button mt-3">
                                                 ثبت
 											</button>
                                         </div>

@@ -4,6 +4,9 @@ import Footer from "src/views/common/Footer";
 import { toast, ToastContainer } from "react-toastify";
 import "src/scss/style.scss";
 import VoteOption from 'src/views/vote/VoteOption';
+import "src/views/vote/Vote.scss";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 
 export default class Status extends Component<Props, State> {
     constructor(props: Props) {
@@ -22,26 +25,29 @@ export default class Status extends Component<Props, State> {
                                 <form className="py-3 px-5">
                                     <h1 className="center-text m-4">موضوع:</h1>
                                     <div >
-                                        <table className="table table-hover">
-                                            <thead className="thead-dark">
-                                                <tr>
-                                                    <th scope="col">تاریخ</th>
-                                                    <th scope="col">زمان شروع</th>
-                                                    <th scope="col">زمان پایان</th>
-                                                    <th scope="col"></th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <VoteOption></VoteOption>
-                                            </tbody>
+                                        <table className="table table-bordered">
+                                            <tr>
+                                                <th></th>
+                                                <td>
+                                                    12/11/11 <br />
+                                                    12:00 <br />
+                                                    13:00
+                                                </td>
+                                                <td>
+                                                    12/11/11 <br />
+                                                    12:00 <br />
+                                                    13:00
+                                                </td>
+                                            </tr>
+                                            <VoteOption></VoteOption>
+                                            <VoteOption></VoteOption>
                                         </table>
                                         <div className="row justify-content-center">
                                             <div className="col-sm-4">
                                                 <button
                                                     type="submit"
                                                     className="signupbtn register-button">
-                                                    ثبت 
+                                                    ثبت
 											    </button>
                                             </div>
                                         </div>
