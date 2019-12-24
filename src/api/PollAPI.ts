@@ -8,6 +8,10 @@ export const getOptions = (pollId: number) =>{
     return API.get("/poll/selects/" + pollId);
 };
 
+export const getAllPolls = () =>{
+    return API.get("/home");
+};
+
 export interface Poll{
     pollId: number;
     title: string;

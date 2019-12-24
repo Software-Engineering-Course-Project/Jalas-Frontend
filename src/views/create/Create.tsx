@@ -272,7 +272,7 @@ export default class Create extends Component<Props, State>  {
 
         return (
             <div>
-                <Header />
+                <Header isUserLoggedIn={true}/>
                 <main>
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center main-height">
