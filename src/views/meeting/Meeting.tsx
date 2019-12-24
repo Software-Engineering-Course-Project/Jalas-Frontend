@@ -55,37 +55,6 @@ export default class Status extends Component<Props, State> {
         });
     }
 
-    // componentDidMount() {
-    //     const {
-    //         match: { params }
-    //     } = this.props;
-
-    //     postRoom(params.room, params.reservationId).then((res) => {
-    //         var temp = this.state.reservedRoom;
-    //         temp.title = res.data[0].fields.title;
-    //         temp.pollId = res.data[0].fields.pollId;
-    //         temp.start.date = res.data[0].fields.date;
-    //         temp.start.time = res.data[0].fields.startTime;
-    //         temp.end.time = res.data[0].fields.endTime;
-    //         temp.end.date = res.data[0].fields.date;
-    //         temp.status = res.data[0].fields.status;
-    //         temp.roomNumber = res.data[0].fields.room;
-    //         temp.isCancle = res.data[0].fields.isCancel;
-    //         this.setState({
-    //             reservedRoom: temp
-    //         })
-    //     }).catch(error => {
-    //         if(error.response.status == 404){
-    //             alert(error.response.data);
-    //             window.location.assign("/reservation/" + params.pollId + "/" + params.reservationId);
-    //         }
-    //         if(error.response.status == 405){
-    //             alert(error.response.data);
-    //             // window.location.assign("/reservation/" + params.pollId + "/" + params.reservationId);
-    //         }
-    //     });
-    // }
-
     getStatus(){
         switch(this.state.reservedRoom.status){
             case 1:
@@ -103,7 +72,7 @@ export default class Status extends Component<Props, State> {
         
         const roomReserved = (
             <div>
-                <Header />
+                <Header isUserLoggedIn={true}/>
                 <main>
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center main-height">

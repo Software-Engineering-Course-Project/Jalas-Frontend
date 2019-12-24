@@ -60,7 +60,7 @@ export default class Reservation extends Component<Props, State> {
 
         const reserveRoom = (
             <div>
-                <Header />
+                <Header isUserLoggedIn={true}/>
                 <main>
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center main-height">

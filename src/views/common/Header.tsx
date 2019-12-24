@@ -8,22 +8,60 @@ export default class Header extends Component<Props, State> {
 	}
 
 	render() {
+		const isUserLoggedIn: boolean = this.props.isUserLoggedIn;
+		if (isUserLoggedIn) {
+			const result = this.userHeader();
+			return result;
+		} else {
+			const result = this.guestHeader();
+			return result;
+		}
+	}
+
+	username = () => {
+		var token = localStorage.getItem('token');
+		
+	}
+
+	guestHeader = () => {
 		return (
 			<header>
 				<div className="header">
 					<div className="container header-hover">
 						<div className="row justify-content-between align-items-center">
 							<div id="logo" className="col-auto">
-							<a href="/main"><img src={logoUrl} alt="jobonja-logo" /></a>
+								<a href="/login"><img src={logoUrl} alt="jobonja-logo" /></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+		);
+	};
+
+	logout = (event:any)=>{
+		event.preventDefault();
+		localStorage.clear();
+		window.location.assign('/login');
+	}
+
+	userHeader = () => {
+		return (
+			<header>
+				<div className="header">
+					<div className="container header-hover">
+						<div className="row justify-content-between align-items-center">
+							<div id="logo" className="col-auto">
+							<a href="/home"><img src={logoUrl} alt="jobonja-logo" /></a>
 							</div>
 							<nav className="col-auto">
 								<div className="row align-items-center">
 									<a
-										href="/main"
+										href={"/profile/" + this.username()}
 										className="col-auto profile-link">
 										حساب کاربری
 									</a>
-									<a className="profile-link" href="/main">
+									<a className="profile-link" href="/login" onClick={this.logout}>
 										<div className="col-auto">خروج</div>
 									</a>
 								</div>
@@ -33,8 +71,10 @@ export default class Header extends Component<Props, State> {
 				</div>
 			</header>
 		);
-	}
+	};
 }
 
-interface Props {}
+interface Props {
+	isUserLoggedIn: boolean;
+}
 interface State {}
