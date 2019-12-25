@@ -13,6 +13,7 @@ import Status from  'src/views/status/Status';
 import Create from 'src/views/create/Create';
 import Vote from 'src/views/vote/Vote';
 import Metting from 'src/views/meeting/Meeting';
+import MyMeeting from 'src/views/meetings/MyMeeting';
 import Login from 'src/views/Login/Login';
 import Home from 'src/views/home/Home';
 
@@ -29,6 +30,7 @@ ReactDOM.render(
       <Route path="/meeting/:pollId/:reservationId/:room" component={Metting} />
       <Route path="/login" component={Login} />
       <Route path="/home" component={Home} />
+      <Route path="/mymeeting" component={MyMeeting} />
     </div>
   </Router>,
   document.getElementById('root')
