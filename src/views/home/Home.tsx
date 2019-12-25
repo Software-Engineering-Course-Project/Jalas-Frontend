@@ -42,7 +42,7 @@ export default class home extends Component<Props, State> {
         <Header isUserLoggedIn={true} />
         <main>
           <div className="container main">
-            <div className="projects">
+            <div className="col-12 projects">
               {AllPoll}
             </div>
           </div>

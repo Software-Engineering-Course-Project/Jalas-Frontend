@@ -9,7 +9,7 @@ import { getPollTime, getPollUser, postVote } from 'src/api/VoteAPI';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { getPoll } from 'src/api/PollAPI';
-
+import CommentBox from "src/views/common/CommentBox";
 
 export default class Status extends Component<Props, State> {
     constructor(props: Props) {
@@ -162,6 +162,9 @@ export default class Status extends Component<Props, State> {
                 <main>
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center main-height">
+                            <div className="col-md-3">
+                                <CommentBox data={""} pollId={this.props.pollId}></CommentBox>
+                            </div>
                             <div className="col-md-9">
                                 <form className="py-3 px-5" onSubmit={this.submit}>
                                     <h1 className="center-text m-4">موضوع:{this.state.title}</h1>

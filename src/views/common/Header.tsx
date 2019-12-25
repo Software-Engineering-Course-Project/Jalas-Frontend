@@ -20,7 +20,7 @@ export default class Header extends Component<Props, State> {
 
 	username = () => {
 		var token = localStorage.getItem('token');
-		
+
 	}
 
 	guestHeader = () => {
@@ -39,7 +39,7 @@ export default class Header extends Component<Props, State> {
 		);
 	};
 
-	logout = (event:any)=>{
+	logout = (event: any) => {
 		event.preventDefault();
 		localStorage.clear();
 		window.location.assign('/login');
@@ -52,12 +52,22 @@ export default class Header extends Component<Props, State> {
 					<div className="container header-hover">
 						<div className="row justify-content-between align-items-center">
 							<div id="logo" className="col-auto">
-							<a href="/home"><img src={logoUrl} alt="jobonja-logo" /></a>
+								<a href="/home"><img src={logoUrl} alt="jobonja-logo" /></a>
 							</div>
 							<nav className="col-auto">
 								<div className="row align-items-center">
 									<a
-										href={"/profile/" + this.username()}
+										href={"/mymeeting"}
+										className="col-auto profile-link">
+										جلسات من
+									</a>
+									<a
+										href={"/create"}
+										className="col-auto profile-link">
+										ایجاد جلسه
+									</a>
+									<a
+										href={"/home"}
 										className="col-auto profile-link">
 										حساب کاربری
 									</a>
@@ -77,4 +87,4 @@ export default class Header extends Component<Props, State> {
 interface Props {
 	isUserLoggedIn: boolean;
 }
-interface State {}
+interface State { }

@@ -5,7 +5,7 @@ import "./Poll.scss";
 import { toast, ToastContainer } from "react-toastify";
 import { getPoll, Poll, getOptions, PollOption } from "src/api/PollAPI";
 import PollInfo from "src/views/poll/PollOption";
-
+import CommentBox from "src/views/common/CommentBox";
 
 
 export default class poll extends Component<Props, State> {
@@ -30,16 +30,16 @@ export default class poll extends Component<Props, State> {
 			pollTemp.title = res.data[0].fields.title;
 			pollTemp.pollId = res.data[0].fields.meeting;
 			getOptions(params.pollId).then(optRes => {
-				for (var i = 0; i < optRes.data.length ; i++) {
+				for (var i = 0; i < optRes.data.length; i++) {
 					pollTemp.options.push({
 						id: optRes.data[i].pk,
 						start: {
 							date: optRes.data[i].fields.date,
-							time:optRes.data[i].fields.startTime
+							time: optRes.data[i].fields.startTime
 						},
 						end: {
 							date: optRes.data[i].fields.date,
-							time:optRes.data[i].fields.endTime
+							time: optRes.data[i].fields.endTime
 						},
 						agreed: optRes.data[i].fields.agree,
 						disagreed: optRes.data[i].fields.disagree
@@ -49,7 +49,7 @@ export default class poll extends Component<Props, State> {
 					poll: pollTemp
 				});
 			}).catch(error => toast.warn(error.response));
-		}).catch(error => {toast.warn(error.response.data);});
+		}).catch(error => { toast.warn(error.response.data); });
 	}
 
 
@@ -62,10 +62,13 @@ export default class poll extends Component<Props, State> {
 		});
 		return (
 			<div>
-				<Header isUserLoggedIn={true}/>
+				<Header isUserLoggedIn={true} />
 				<main>
 					<div className="container h-100">
 						<div className="row justify-content-center align-items-center main-height">
+							<div className="col-md-3">
+								<CommentBox data={""} pollId={this.state.poll.pollId}></CommentBox>
+							</div>
 							<div className="col-md-9">
 								<form className="py-3 px-5">
 									<h1 className="center-text m-4">موضوع:{this.state.poll.title}</h1>
@@ -85,6 +88,17 @@ export default class poll extends Component<Props, State> {
 												{AllPollOptions}
 											</tbody>
 										</table>
+									</div>
+									<div>
+										<div>
+											<div className="col-4 center">
+												<button
+													type="submit"
+													className="click-button">
+													ویرایش
+												</button>
+											</div>
+										</div>
 									</div>
 								</form>
 							</div>
