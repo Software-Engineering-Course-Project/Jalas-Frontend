@@ -11,26 +11,17 @@ export default class PollInfo extends Component<Props, State> {
     }
 
     render() {
-
+       console.log(this.props.poll)
         return (
-            <div className="row project">
-
-                <div className="col-10 p-0 pr-3">
-                    <div className="row m-0">
-                        <h5 className="title m-0">{"نام"}</h5>
-                        
-                    </div>
-                    <p className="description mb-0">{"توضیح"}</p>
-                    <p className="blue budget my-1"><b>بودجه: تومان</b></p>
-
-                </div>
+            <div className="row project" onClick={this.props.onProjectClick}>
+                    <h5 className="title p-4">{this.props.poll.fields.title}</h5>
             </div>
         );
     }
 }
 
 interface Props {
-    poll: Poll;
+    poll: any;
     onProjectClick?(): void;
 }
 interface State {}

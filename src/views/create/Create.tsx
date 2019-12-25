@@ -3,7 +3,8 @@ import Header from "src/views/common/Header";
 import Footer from "src/views/common/Footer";
 import "./Create.scss";
 import { toast, ToastContainer } from "react-toastify";
-import {postCreatePoll, getPollId} from 'src/api/CreateAPI';
+import { postCreatePoll, getPollId } from 'src/api/CreateAPI';
+import { Link } from "react-router-dom";
 
 
 export default class Create extends Component<Props, State>  {
@@ -15,12 +16,12 @@ export default class Create extends Component<Props, State>  {
             error: null,
             options: [this.option(0)],
             oId: 0,
-            title:"",
-            text:"",
-            selects:[{
-                start_time:"",
-                end_time:"",
-                date:""
+            title: "",
+            text: "",
+            selects: [{
+                start_time: "",
+                end_time: "",
+                date: ""
             }]
         };
     }
@@ -28,39 +29,39 @@ export default class Create extends Component<Props, State>  {
     handleInputChange = (event: any) => {
 
         const target = event.target;
-		const name = target.name;
+        const name = target.name;
         const value = target.value;
-        
+
         this.setState({
-            [name]:value
+            [name]: value
         } as any);
-        
+
     };
 
-    handleOptionInputChange = (event:any) =>{
+    handleOptionInputChange = (event: any) => {
         const target = event.target;
-		const name = target.name;
+        const name = target.name;
         const value = target.value;
         var splited = name.split("-");
         var textName = splited[0];
         var index = splited[1];
         var updatedArray = [...this.state.selects];
-        if(textName == "date"){
-        updatedArray[index].date = value;
-        }else if(textName == "start_time"){
+        if (textName == "date") {
+            updatedArray[index].date = value;
+        } else if (textName == "start_time") {
             updatedArray[index].start_time = value;
-        }else if(textName == "end_time"){
+        } else if (textName == "end_time") {
             updatedArray[index].end_time = value;
         }
         this.setState({
             selects: updatedArray,
         } as any);
-        
+
     }
 
     handleDelete = (item: any) => {
         this.setState({
-            items: this.state.items.filter((i:any) =>  i !== item)
+            items: this.state.items.filter((i: any) => i !== item)
         });
     };
 
@@ -121,42 +122,42 @@ export default class Create extends Component<Props, State>  {
             options: [...this.state.options, this.option(this.state.oId + 1)]
         });
         var temp = {
-            start_time:"",
-            end_time:"",
-            date:""
+            start_time: "",
+            end_time: "",
+            date: ""
         };
 
         this.setState({
-            selects:[...this.state.selects, temp]
+            selects: [...this.state.selects, temp]
         } as any)
     }
 
     deleteOption = (event: any, ID: any) => {
         event.preventDefault();
         var numberOfOptions = 0;
-        this.state.options.map((option:any)=>{
+        this.state.options.map((option: any) => {
             if (option != "") {
                 numberOfOptions = numberOfOptions + 1;
             }
         });
 
         const updatedSelectArray = [...this.state.selects];
-            updatedSelectArray[ID] = {
-                start_time:"",
-                end_time:"",
-                date:""
-            };
-            this.setState({
-                selects: updatedSelectArray,
-            } as any);
-        
+        updatedSelectArray[ID] = {
+            start_time: "",
+            end_time: "",
+            date: ""
+        };
+        this.setState({
+            selects: updatedSelectArray,
+        } as any);
+
         if (numberOfOptions > 1) {
             const updatedArray = [...this.state.options];
             updatedArray[ID] = "";
             this.setState({
                 options: updatedArray,
             });
-        }else{
+        } else {
             toast.warn("باید حتما یک زمان برای جلسه انتخاب کنید");
         }
     }
@@ -170,7 +171,7 @@ export default class Create extends Component<Props, State>  {
                         type="text"
                         className="text-box"
                         placeholder="تاریخ: dd-mm-yyyy "
-                        name={"date-"+oId}
+                        name={"date-" + oId}
                         onChange={this.handleOptionInputChange}
                         required
                     />
@@ -180,7 +181,7 @@ export default class Create extends Component<Props, State>  {
                         type="text"
                         className="text-box "
                         placeholder="زمان شروع"
-                        name={"start_time-"+oId}
+                        name={"start_time-" + oId}
                         onChange={this.handleOptionInputChange}
                         required
                     />
@@ -190,7 +191,7 @@ export default class Create extends Component<Props, State>  {
                         type="text"
                         className="text-box"
                         placeholder="زمان پایان"
-                        name={"end_time-"+oId}
+                        name={"end_time-" + oId}
                         onChange={this.handleOptionInputChange}
                         required
                     />
@@ -214,11 +215,11 @@ export default class Create extends Component<Props, State>  {
         );
     }
 
-    submit = ()=>{
+    submit = () => {
         var i;
         var options = [];
-        for(i=0 ; i < this.state.selects.length ; i++){
-            if(this.state.selects[i].date != ""){
+        for (i = 0; i < this.state.selects.length; i++) {
+            if (this.state.selects[i].date != "") {
                 options.push(this.state.selects[i]);
             }
         }
@@ -227,12 +228,13 @@ export default class Create extends Component<Props, State>  {
             title: this.state.title,
             text: this.state.text,
             participants: this.state.items,
-            selects:options,
-            link:"http://localhost:3000/vote/"
+            selects: options,
+            link: "http://localhost:3000/vote/"
         };
 
-        postCreatePoll(content).catch(error => {toast.warn(error.response.data);})
+        postCreatePoll(content).catch(error => { toast.warn(error.response.data); })
         toast.success("جلسه با موفقیت ساخته شد.");
+        
     }
 
     render() {
@@ -272,7 +274,7 @@ export default class Create extends Component<Props, State>  {
 
         return (
             <div>
-                <Header isUserLoggedIn={true}/>
+                <Header isUserLoggedIn={true} />
                 <main>
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center main-height">
@@ -294,7 +296,7 @@ export default class Create extends Component<Props, State>  {
                                                 placeholder="عنوان جلسه را وارد کنید"
                                                 name="title"
                                                 onChange={this.handleInputChange}
-                                                required                                            
+                                                required
                                             />
                                         </div>
                                     </div>
@@ -311,12 +313,18 @@ export default class Create extends Component<Props, State>  {
 
                                     <div className="row justify-content-center">
                                         <div className="col-sm-4">
-                                            <button
-                                                type="submit"
-                                                className="signupbtn register-button mt-3"
+                                            
+
+                                                <button
+                                                    type="submit"
+                                                    className="signupbtn register-button mt-3"
+
                                                 >
-                                                ثبت
+                                                    <Link to="/home">
+                                                    ثبت
+                                                    </Link>
 											</button>
+                                            
                                         </div>
                                     </div>
 
@@ -332,7 +340,7 @@ export default class Create extends Component<Props, State>  {
     }
 }
 
-interface Props {}
+interface Props { }
 
 interface State {
     items: any,
@@ -340,11 +348,11 @@ interface State {
     error: any,
     options: any,
     oId: any,
-    title:any,
-    text:any,
-    selects:[{
-        date:any,
-        start_time:any,
-        end_time:any
+    title: any,
+    text: any,
+    selects: [{
+        date: any,
+        start_time: any,
+        end_time: any
     }]
 }
