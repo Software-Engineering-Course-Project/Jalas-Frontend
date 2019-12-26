@@ -51,25 +51,23 @@ export default class MyMeeting extends Component<Props, State> {
         <div className="container h-100">
 		<div className="row justify-content-center align-items-center main-height">
           <div className="container main">
-            <form className="py-3 px-5">
-              <div>
-                <table className="table table-hover">
-                    <thead className="thead-dark">
-                        <tr>
-                            <th scope="col">عنوان</th>
-                            <th scope="col">تاریخ</th>
-                            <th scope="col">زمان شروع</th>
-                            <th scope="col">زمان پایان</th>
-                            <th scope="col">اتاق</th>
-                            <th scope="col"> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {AllMeetings}
-                    </tbody>
-                </table>
-              </div>
-            </form>
+            <table className="table table-hover">
+                <thead className="thead-dark">
+                <tr>
+                    <h1 className="center-text">جلسات</h1>
+                </tr>
+                    <tr>
+                        <th scope="col">عنوان</th>
+                        <th scope="col">تاریخ</th>
+                        <th scope="col">زمان شروع</th>
+                        <th scope="col">زمان پایان</th>
+                        <th scope="col">اتاق</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {AllMeetings}
+                </tbody>
+            </table>
           </div>
         </div>
         </div>
