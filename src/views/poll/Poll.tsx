@@ -17,7 +17,8 @@ export default class poll extends Component<Props, State> {
 				pollId: 0,
 				title: "",
 				options: []
-			}
+			},
+			pollId:0
 		}
 	}
 
@@ -26,8 +27,11 @@ export default class poll extends Component<Props, State> {
 			match: { params }
 		} = this.props;
 
+		this.setState({
+			pollId:params.pollId
+		})
+
 		getPoll(params.pollId).then(res => {
-			console.log(res);
 			var pollTemp = this.state.poll;
 			pollTemp.title = res.data[0].fields.title;
 			pollTemp.pollId = res.data[0].fields.meeting;
@@ -70,7 +74,7 @@ export default class poll extends Component<Props, State> {
 					<div className="container h-100">
 						<div className="row justify-content-center align-items-center main-height">
 							<div className="col-md-3">
-								<CommentBox data={""} pollId={this.state.poll.pollId}></CommentBox>
+								<CommentBox pollId={this.props.match.params.pollId}/>
 							</div>
 							<div className="col-md-9">
 								<form className="py-3 px-5">
@@ -123,5 +127,6 @@ interface Props {
 
 interface State {
 	poll: Poll;
+	pollId: any;
 }
 

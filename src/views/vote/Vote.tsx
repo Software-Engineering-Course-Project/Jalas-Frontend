@@ -163,7 +163,7 @@ export default class Status extends Component<Props, State> {
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center main-height">
                             <div className="col-md-3">
-                                <CommentBox data={""} pollId={this.props.pollId}></CommentBox>
+                                <CommentBox pollId={this.props.match.params.pollId}></CommentBox>
                             </div>
                             <div className="col-md-9">
                                 <form className="py-3 px-5" onSubmit={this.submit}>

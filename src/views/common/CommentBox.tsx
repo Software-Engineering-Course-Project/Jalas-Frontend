@@ -1,36 +1,56 @@
 import React, { Component } from "react";
 import "src/views/common/Header.scss";
 import "src/scss/style.scss";
-import {sendComment, getAllComment} from "src/api/CommentAPI";
+import { sendComment, getAllComment } from "src/api/CommentAPI";
 import { toast, ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default class CommentBox extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            text:"",
-            comments:[{
-                text:"",
-                author:""
+            text: "",
+            comments: [{
+                text: "",
+                author: ""
             }]
         }
     }
-    
 
-    Comment = (author: any, text: any) => {
-        return (
-            <div className="comment">
-                <h2 className="author">{author}</h2>
-                {text}
-            </div>
-        )
-    };
+    componentWillMount = () => {
+        getAllComment(this.props.pollId).then((res) => {
+            for (var i = 0; i < res.data.length; i++) {
+                this.setState({
+                    comments: [...this.state.comments, {
+                        text: res.data[i].fields.text,
+                        author: res.data[i].fields.username
+                    }]
+                } as any);
+            }
+        }).catch((error) => { toast.warn(error.response); })
+        
+        this.setState({
+            comments: this.state.comments.filter((i: any) => i.author !== "")
+        } as any);
+
+    }
 
     CommentList = () => {
         return (
             <div className="comment-list">
-                {this.props.data.map((c: any) => this.Comment(c.author, c.text))}
-            </div>
+                {this.state.comments.map((c: any) => {
+                    return (
+                        < div >
+                            <div className="
+                            l       qwaesdrtfgho
+                            tr">
+                               {c.author}:{c.text}
+                            </div>
+                        </div>
+                    )
+                })
+                }
+            </div >
         )
     };
 
@@ -48,38 +68,35 @@ export default class CommentBox extends Component<Props, State> {
         sendComment(this.props.pollId, this.state.text).catch((error) => {
             toast.warn(error.data);
         });
+        window.location.assign('/poll/' + this.props.pollId);
     }
 
     render() {
-        // getAllComment(this.props.pollId).then((res)=>{
-        //     console.log(res);
-        // }).catch(()=>{
 
-        // })
         return (
             <div>
                 <form className="comment-form form-group" onSubmit={() => { }}>
 
                     <div className="input-group">
-                        <input type="text" 
-                        name="text" 
-                        placeholder="چیزی بگو..." 
-                        onChange={this.handleInputChange}
-                        required
-                        className="form-control" />
+                        <input type="text"
+                            name="text"
+                            placeholder="چیزی بگو..."
+                            onChange={this.handleInputChange}
+                            required
+                            className="form-control" />
                     </div>
 
                     <div className="comment-center">
                         <button
-                            type="submit"
+                            type="button"
                             className="signupbtn comment-button"
-                            onClick={()=> this.submit()}
+                            onClick={() => this.submit()}
                         >
                             ثبت
 						</button>
                     </div>
                     <div>
-                        {this.CommentList}
+                        {this.CommentList()}
                     </div>
                 </form>
             </div>
@@ -88,13 +105,12 @@ export default class CommentBox extends Component<Props, State> {
 }
 
 interface Props {
-    pollId:any,
-    data: any
+    pollId: any,
 }
 interface State {
-    text:any,
+    text: any,
     comments: [{
-        text:any,
-        author:any
+        text: any,
+        author: any
     }]
- }
+}

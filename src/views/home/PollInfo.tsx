@@ -11,7 +11,7 @@ export default class PollInfo extends Component<Props, State> {
     }
 
     render() {
-       console.log(this.props.poll)
+       
         return (
             <div className="row project" onClick={this.props.onProjectClick}>
                     <h5 className="title p-3 center-text">{this.props.poll.fields.title}</h5>

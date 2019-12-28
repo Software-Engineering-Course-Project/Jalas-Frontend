@@ -4,7 +4,7 @@ import Footer from "src/views/common/Footer";
 import 'src/views/create/Create.scss';
 import { toast, ToastContainer } from "react-toastify";
 import { postCreatePoll, getPollId } from 'src/api/CreateAPI';
-import { getPoll, Poll, getOptions, PollOption } from "src/api/PollAPI";
+import { getPoll, Poll, getOptions, PollOption, getParticipant, modifyPoll } from "src/api/PollAPI";
 
 export default class EditPoll extends Component<Props, State>  {
     constructor(props: Props) {
@@ -63,7 +63,13 @@ export default class EditPoll extends Component<Props, State>  {
 				}
 			}).catch(error => toast.warn(error.response));
         }).catch(error => { toast.warn(error.response.data); });
-      
+
+
+        getParticipant(params.pollId).then(res =>{
+            this.setState({
+                items:res.data.participants
+            })
+        }).catch(error => { toast.warn(error.response); });
 	}
 
     handleInputChange = (event: any) => {
@@ -225,8 +231,6 @@ export default class EditPoll extends Component<Props, State>  {
     }
 
     option = (oId: any) => {
-        console.log(this.state.selects);
-        console.log(oId);
 
         return (
             <div className="row mb-3">
@@ -299,7 +303,7 @@ export default class EditPoll extends Component<Props, State>  {
             link: "http://localhost:3000/vote/"
         };
 
-        postCreatePoll(content).catch(error => { toast.warn(error.response.data); })
+        modifyPoll(this.props.match.params.pollId,content).catch(error => { toast.warn(error.response.data); })
         toast.success("جلسه با موفقیت ساخته شد.");
         this.props.history.push('/home');
     }
@@ -338,6 +342,12 @@ export default class EditPoll extends Component<Props, State>  {
                 </div>
             </div>
         );
+        const AllOptions = this.state.selects.map((select, index) => {
+			return (
+				this.option(index)
+			);
+		});
+        
 
         return (
             <div>
@@ -376,9 +386,9 @@ export default class EditPoll extends Component<Props, State>  {
                                         <label className="mt-3">
                                             <b>گزینه‌ها</b>
                                         </label>
-                                        {this.state.options}
+                                        
                                     </div>
-
+                                    {AllOptions}
                                     <div className="row justify-content-center">
                                         <div className="col-sm-4">
                                                 <button

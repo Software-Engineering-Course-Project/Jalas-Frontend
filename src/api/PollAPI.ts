@@ -12,6 +12,14 @@ export const getAllPolls = () =>{
     return API.get("/poll/polls");
 };
 
+export const getParticipant = (pollId: number) =>{
+    return API.get("/poll/get_participants/" + pollId);
+}
+
+export const modifyPoll = (pollId:number , data: any)=>{
+    return API.post("/poll/modify/"+pollId , data);
+}
+
 export interface Poll{
     pollId: number;
     title: string;
