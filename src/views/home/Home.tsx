@@ -18,22 +18,21 @@ export default class home extends Component<Props, State> {
   }
 
   componentDidMount() {
-    // getAllProjects(this.state.pageSize, this.state.projectPageNumber).then(res => {
-    //   this.setState({
-    //     projects: res.data,
-    //     projectPageNumber: this.state.projectPageNumber + 1
-    //   });
-    // }).catch(error => toast.warn(error.response.data));
-
+    getAllPolls().then(res => {
+      this.setState({
+        allPolls: res.data,
+      });
+      
+    }).catch(error => toast.warn(error.response));
   }
   
   render() {
     
 
-    const AllPoll = this.state.allPolls.map((poll) => {
+    const AllPoll = this.state.allPolls.map((poll:any) => {
       return (
         <PollInfo poll={poll}  onProjectClick={() => {
-          window.location.assign("/poll/" + poll.pollId);
+          window.location.assign("/poll/" + poll.fields.meeting);
         }} />
       );
     });
@@ -43,14 +42,12 @@ export default class home extends Component<Props, State> {
         <Header isUserLoggedIn={true} />
         <main>
           <div className="container main">
-            <div className="projects">
+            <div className="col-12 projects">
               {AllPoll}
-              
             </div>
           </div>
         </main>
         <Footer />
-        <ToastContainer />
       </div>
     )
   }
@@ -58,5 +55,5 @@ export default class home extends Component<Props, State> {
 
 interface Props {}
 interface State {
-    allPolls:Poll[]
+    allPolls:any
 }
