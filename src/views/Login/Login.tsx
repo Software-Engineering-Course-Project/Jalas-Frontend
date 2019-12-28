@@ -32,9 +32,7 @@ export default class Login extends Component<Props, State> {
 		.then( res =>{
 			localStorage.setItem("token" , res.data.access);
 			window.location.assign('home');
-		}
-		)
-		.catch(error => toast.warn(error.response.data));
+		}).catch(error => toast.warn(error.response.data));
 	}
 
 	render() {
@@ -105,7 +103,7 @@ export default class Login extends Component<Props, State> {
 					</div>
 				</main>
 				<Footer />
-				<ToastContainer />
+
 			</div>
 		);
 	}

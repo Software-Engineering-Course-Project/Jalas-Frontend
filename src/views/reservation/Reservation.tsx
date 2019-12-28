@@ -86,7 +86,6 @@ export default class Reservation extends Component<Props, State> {
                     </div>
                 </main>
                 <Footer />
-                <ToastContainer />
             </div>
         );
 
