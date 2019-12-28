@@ -15,7 +15,7 @@ export default class EditPoll extends Component<Props, State>  {
             error: null,
             options: [],
             pollId: 0,
-            oId:-1,
+            oId: -1,
             title: "",
             text: "",
             selects: [{
@@ -27,50 +27,50 @@ export default class EditPoll extends Component<Props, State>  {
     }
 
     componentDidMount() {
-		const {
-			match: { params }
+        const {
+            match: { params }
         } = this.props;
 
-		getPoll(params.pollId).then(res => {
-            
+        getPoll(params.pollId).then(res => {
+
             this.setState({
                 title: res.data[0].fields.title,
                 pollId: res.data[0].fields.meeting
             })
             this.setState({
-                selects:[]
+                selects: []
             } as any)
 
-			getOptions(params.pollId).then(optRes => {
-				for (var i = 0; i < optRes.data.length; i++) {
+            getOptions(params.pollId).then(optRes => {
+                for (var i = 0; i < optRes.data.length; i++) {
 
                     var temp = this.state.selects;
 
-					temp = ({
-						start: {
-							date: optRes.data[i].fields.date,
-							time: optRes.data[i].fields.startTime
-						},
-						end: {
-							date: optRes.data[i].fields.date,
-							time: optRes.data[i].fields.endTime
-						},
-						agreed: optRes.data[i].fields.agree,
-						disagreed: optRes.data[i].fields.disagree
+                    temp = ({
+                        start: {
+                            date: optRes.data[i].fields.date,
+                            time: optRes.data[i].fields.startTime
+                        },
+                        end: {
+                            date: optRes.data[i].fields.date,
+                            time: optRes.data[i].fields.endTime
+                        },
+                        agreed: optRes.data[i].fields.agree,
+                        disagreed: optRes.data[i].fields.disagree
                     } as any);
-                    
+
                     this.makeOption(temp);
-				}
-			}).catch(error => toast.warn(error.response));
+                }
+            }).catch(error => toast.warn(error.response));
         }).catch(error => { toast.warn(error.response.data); });
 
 
-        getParticipant(params.pollId).then(res =>{
+        getParticipant(params.pollId).then(res => {
             this.setState({
-                items:res.data.participants
+                items: res.data.participants
             })
         }).catch(error => { toast.warn(error.response); });
-	}
+    }
 
     handleInputChange = (event: any) => {
 
@@ -159,7 +159,7 @@ export default class EditPoll extends Component<Props, State>  {
         });
     };
 
-    makeOption = (input:any) =>{
+    makeOption = (input: any) => {
         var temp = {
             start_time: input.start.time,
             end_time: input.end.time,
@@ -191,12 +191,12 @@ export default class EditPoll extends Component<Props, State>  {
         this.setState({
             oId: this.state.oId + 1,
             selects: [...this.state.selects, temp]
-        } as any, ()=>{
+        } as any, () => {
             this.setState({
                 options: [...this.state.options, this.option(this.state.oId)]
             });
         });
-        
+
     }
 
     deleteOption = (event: any, ID: any) => {
@@ -216,14 +216,14 @@ export default class EditPoll extends Component<Props, State>  {
         };
 
         this.setState({
-            selects: updatedSelectArray,
+            selects: updatedSelectArray
         } as any);
 
         if (numberOfOptions > 1) {
             const updatedArray = [...this.state.options];
             updatedArray[ID] = "";
             this.setState({
-                options: updatedArray,
+                options: updatedArray
             });
         } else {
             toast.warn("باید حتما یک زمان برای جلسه انتخاب کنید");
@@ -238,7 +238,7 @@ export default class EditPoll extends Component<Props, State>  {
                     <input
                         type="text"
                         className="text-box"
-                        placeholder="تاریخ: dd-mm-yyyy "
+                        placeholder="تاریخ: yyyy-mm-dd "
                         name={"date-" + oId}
                         onChange={this.handleOptionInputChange}
                         value={this.state.selects[oId].date}
@@ -303,8 +303,8 @@ export default class EditPoll extends Component<Props, State>  {
             link: "http://localhost:3000/vote/"
         };
 
-        modifyPoll(this.props.match.params.pollId,content).catch(error => { toast.warn(error.response.data); })
-        toast.success("جلسه با موفقیت ساخته شد.");
+        modifyPoll(this.props.match.params.pollId, content).catch(error => { toast.warn(error.response.data); })
+        toast.success("جلسه با موفقیت ویرایش شد.");
         this.props.history.push('/home');
     }
 
@@ -343,11 +343,13 @@ export default class EditPoll extends Component<Props, State>  {
             </div>
         );
         const AllOptions = this.state.selects.map((select, index) => {
-			return (
-				this.option(index)
-			);
-		});
-        
+            if (this.state.options[index] != "" ) {
+                return (
+                    this.option(index)
+                );
+            }
+        });
+
 
         return (
             <div>
@@ -386,18 +388,18 @@ export default class EditPoll extends Component<Props, State>  {
                                         <label className="mt-3">
                                             <b>گزینه‌ها</b>
                                         </label>
-                                        
+
                                     </div>
                                     {AllOptions}
                                     <div className="row justify-content-center">
                                         <div className="col-sm-4">
-                                                <button
-                                                    type="submit"
-                                                    className="signupbtn register-button mt-3"
-                                                >
-                                                    ثبت
+                                            <button
+                                                type="submit"
+                                                className="signupbtn register-button mt-3"
+                                            >
+                                                ثبت
 											</button>
-                                            
+
                                         </div>
                                     </div>
 
@@ -412,8 +414,8 @@ export default class EditPoll extends Component<Props, State>  {
     }
 }
 
-interface Props { 
-    history:any,
+interface Props {
+    history: any,
     match: any;
 }
 
@@ -423,9 +425,9 @@ interface State {
     error: any,
     options: any,
     title: any,
-    oId:any,
+    oId: any,
     text: any,
-    pollId:any,
+    pollId: any,
     selects: [{
         date: any,
         start_time: any,

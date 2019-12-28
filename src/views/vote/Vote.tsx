@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "src/scss/style.scss";
 import VoteOption from 'src/views/vote/VoteOption';
 import "src/views/vote/Vote.scss";
-import { getPollTime, getPollUser, postVote } from 'src/api/VoteAPI';
+import { getPollTime, getPollUser, postVote, canVote } from 'src/api/VoteAPI';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { getPoll } from 'src/api/PollAPI';
@@ -18,21 +18,22 @@ export default class Status extends Component<Props, State> {
             title: "",
             times: [],
             participants: [],
-            name:"",
-            vote:[]
+            name: "",
+            vote: [],
+            canVote: 1
         }
     }
 
     handleInputChange = (event: any) => {
 
         const target = event.target;
-		const name = target.name;
+        const name = target.name;
         const value = target.value;
-        
+
         this.setState({
-            [name]:value
+            [name]: value
         } as any);
-        
+
     };
 
     componentDidMount() {
@@ -57,7 +58,7 @@ export default class Status extends Component<Props, State> {
                     times: [...this.state.times, temp]
                 });
                 var ts = [];
-                for(var i = 0 ; i < this.state.times.length ; i++){
+                for (var i = 0; i < this.state.times.length; i++) {
                     ts.push(0);
                 }
                 this.setState({
@@ -77,21 +78,28 @@ export default class Status extends Component<Props, State> {
                 })
             })
         }).catch(error => toast.warn(error.response));
+
+        canVote(params.pollId).then((res) => {
+
+            this.setState({
+                canVote: res.data.value
+            })
+        }).catch(error => toast.warn(error.response));
     }
 
-    checkOption=(event:any)=> {
+    checkOption = (event: any) => {
         const target = event.target;
-		const name = target.name;
+        const name = target.name;
         const value = target.value;
         var splited = name.split("-");
         var index = splited[1];
         var updatedArray = [...this.state.vote];
-        if (updatedArray[index]== 1) {
+        if (updatedArray[index] == 1) {
             updatedArray[index] = 0;
             this.setState({
                 vote: updatedArray
             });
-        } else if(updatedArray[index]== 0){
+        } else if (updatedArray[index] == 0) {
             updatedArray[index] = 1;
             this.setState({
                 vote: updatedArray
@@ -112,7 +120,7 @@ export default class Status extends Component<Props, State> {
                             <Checkbox
                                 name={"ckeckbox-" + i}
                                 color="primary"
-                                onChange={(e:any)=>this.checkOption(e)}
+                                onChange={(e: any) => this.checkOption(e)}
                             />
                         }
                         label=""
@@ -123,17 +131,39 @@ export default class Status extends Component<Props, State> {
         return (temp);
     }
 
-    submit = () =>{
+    submit = () => {
         const {
             match: { params }
         } = this.props;
-        var data= {
-            name:this.state.name,
-            vote:this.state.vote
+        var data = {
+            name: this.state.name,
+            vote: this.state.vote
         };
 
-        postVote(params.pollId,data).catch(error => { toast.warn(error.response);});
+        postVote(params.pollId, data).catch(error => { toast.warn(error.response); });
 
+    }
+
+    voteOption = ()=>{
+        if (this.state.canVote == 1) {
+            return (
+
+                    <tr>
+                        <th>
+                            <input
+                                type="text"
+                                className="text-box col-5"
+                                placeholder="نام خود را وارد کنید"
+                                name="name"
+                                required
+                                onChange={this.handleInputChange}
+                            />
+                        </th>
+                        {this.checkbox(this.state.times.length)}
+                    </tr>
+
+            );
+        }
     }
 
     render() {
@@ -156,9 +186,10 @@ export default class Status extends Component<Props, State> {
             );
         });
 
+
         return (
             <div>
-                <Header isUserLoggedIn={true}/>
+                <Header isUserLoggedIn={true} />
                 <main>
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center main-height">
@@ -174,20 +205,7 @@ export default class Status extends Component<Props, State> {
                                                 <th></th>
                                                 {timeComponent}
                                             </tr>
-                                            <tr>
-                                                <th>
-                                                    <input
-                                                        type="text"
-                                                        className="text-box col-5"
-                                                        placeholder="نام خود را وارد کنید"
-                                                        name="name"
-                                                        required
-                                                        onChange={this.handleInputChange}
-                                                    />
-                                                </th>
-                                                {this.checkbox(this.state.times.length)}
-                                            </tr>
-
+                                            {this.voteOption()}
                                             {userComponent}
                                         </table>
                                         <div className="row justify-content-center">
@@ -219,6 +237,7 @@ interface State {
     title: any,
     times: any,
     participants: any,
-    name:any,
-    vote:any
+    name: any,
+    vote: any,
+    canVote: any
 }
