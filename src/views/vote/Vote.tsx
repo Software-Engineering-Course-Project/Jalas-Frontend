@@ -5,10 +5,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "src/scss/style.scss";
 import VoteOption from 'src/views/vote/VoteOption';
 import "src/views/vote/Vote.scss";
-import { getPollTime, getPollUser, postVote, canVote } from 'src/api/VoteAPI';
+import { getPollTime, getPollUser, postVote, canVote, getPollTitle } from 'src/api/VoteAPI';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
-import { getPoll } from 'src/api/PollAPI';
 import CommentBox from "src/views/common/CommentBox";
 
 export default class Status extends Component<Props, State> {
@@ -41,7 +40,7 @@ export default class Status extends Component<Props, State> {
             match: { params }
         } = this.props;
 
-        getPoll(params.pollId).then(res => {
+        getPollTitle(params.pollId).then(res => {
             this.setState({
                 title: res.data[0].fields.title
             })

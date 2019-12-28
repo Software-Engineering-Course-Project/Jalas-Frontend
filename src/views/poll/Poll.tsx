@@ -18,7 +18,8 @@ export default class poll extends Component<Props, State> {
 				title: "",
 				options: []
 			},
-			pollId:0
+			pollId: 0,
+			status: false
 		}
 	}
 
@@ -28,16 +29,19 @@ export default class poll extends Component<Props, State> {
 		} = this.props;
 
 		this.setState({
-			pollId:params.pollId
+			pollId: params.pollId
 		})
 
 		getPoll(params.pollId).then(res => {
 			var pollTemp = this.state.poll;
 			pollTemp.title = res.data[0].fields.title;
 			pollTemp.pollId = res.data[0].fields.meeting;
+			this.setState({
+				status:res.data[0].fields.state
+			})
 			getOptions(params.pollId).then(optRes => {
 				for (var i = 0; i < optRes.data.length; i++) {
-					
+
 					pollTemp.options.push({
 						id: optRes.data[i].pk,
 						start: {
@@ -56,7 +60,7 @@ export default class poll extends Component<Props, State> {
 					poll: pollTemp
 				});
 			}).catch(error => toast.warn(error.response));
-		}).catch(error => { toast.warn(error.response.data); });
+		}).catch(error => { toast.warn(error.response); });
 	}
 
 
@@ -64,7 +68,7 @@ export default class poll extends Component<Props, State> {
 
 		const AllPollOptions = this.state.poll.options.map(option => {
 			return (
-				<PollInfo pollInfo={option} pollID={this.state.poll.pollId} />
+				<PollInfo status={this.state.status} pollInfo={option} pollID={this.state.poll.pollId} />
 			);
 		});
 		return (
@@ -74,7 +78,7 @@ export default class poll extends Component<Props, State> {
 					<div className="container h-100">
 						<div className="row justify-content-center align-items-center main-height">
 							<div className="col-md-3">
-								<CommentBox pollId={this.props.match.params.pollId}/>
+								<CommentBox pollId={this.props.match.params.pollId} />
 							</div>
 							<div className="col-md-9">
 								<form className="py-3 px-5">
@@ -99,13 +103,16 @@ export default class poll extends Component<Props, State> {
 									<div>
 										<div>
 											<div className="col-4 center">
-												<Link to={"/edit/" + this.state.poll.pollId}>
-													<button
-														type="submit"
-														className="click-button">
-														ویرایش
-												</button>
-												</Link>
+												{this.state.status ? "" : (
+													<Link to={"/edit/" + this.state.poll.pollId}>
+														<button
+															type="submit"
+															className="click-button">
+															ویرایش
+													</button>
+													</Link>
+												)}
+
 											</div>
 										</div>
 									</div>
@@ -114,7 +121,7 @@ export default class poll extends Component<Props, State> {
 						</div>
 					</div>
 				</main>
-				<Footer />	
+				<Footer />
 			</div>
 		);
 	}
@@ -128,5 +135,6 @@ interface Props {
 interface State {
 	poll: Poll;
 	pollId: any;
+	status: any;
 }
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 var API = axios.create({
 	baseURL: "http://localhost:8000/api"
@@ -20,6 +21,10 @@ API.interceptors.response.use(response => response, (error) => {
 			localStorage.clear;
 			window.location.href = '/login';
 	}
+	if(error.response.status === 999){
+		toast.warn("شما به این صفحه دسترسی ندارید.")
+		window.location.href = '/home';
+}
 	return Promise.reject(error);
 });
 

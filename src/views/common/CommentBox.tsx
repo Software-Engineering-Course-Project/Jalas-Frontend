@@ -68,7 +68,7 @@ export default class CommentBox extends Component<Props, State> {
         sendComment(this.props.pollId, this.state.text).catch((error) => {
             toast.warn(error.data);
         });
-        window.location.assign('/poll/' + this.props.pollId);
+        // window.location.assign('/poll/' + this.props.pollId);
     }
 
     render() {
@@ -88,7 +88,7 @@ export default class CommentBox extends Component<Props, State> {
 
                     <div className="comment-center">
                         <button
-                            type="button"
+                            type="submit"
                             className="signupbtn comment-button"
                             onClick={() => this.submit()}
                         >

@@ -18,6 +18,7 @@ import MyMeeting from 'src/views/meetings/MyMeeting';
 import Login from 'src/views/Login/Login';
 import Home from 'src/views/home/Home';
 import EditPoll from './views/poll/EditPoll';
+import Logger from './views/Logger/Logger';
 
 
 
@@ -34,6 +35,7 @@ ReactDOM.render(
       <Route path="/home" component={Home} />
       <Route path="/mymeeting" component={MyMeeting} />
       <Route path="/edit/:pollId" component={EditPoll} />
+      <Route path="/log" component={Logger} />
       <ToastContainer />
     </div>
   </Router>,

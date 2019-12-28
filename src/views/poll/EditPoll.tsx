@@ -32,6 +32,10 @@ export default class EditPoll extends Component<Props, State>  {
         } = this.props;
 
         getPoll(params.pollId).then(res => {
+            if(res.data[0].fields.state){
+                toast.warn("این نظرسنجی به اتمام رسیده است.");
+                window.location.assign('/home');
+            }
 
             this.setState({
                 title: res.data[0].fields.title,
