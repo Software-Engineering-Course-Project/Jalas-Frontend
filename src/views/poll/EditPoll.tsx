@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import Header from "src/views/common/Header";
 import Footer from "src/views/common/Footer";
-import "./Create.scss";
+import 'src/views/create/Create.scss';
 import { toast, ToastContainer } from "react-toastify";
 import { postCreatePoll, getPollId } from 'src/api/CreateAPI';
-import { Link } from "react-router-dom";
+import { getPoll, Poll, getOptions, PollOption } from "src/api/PollAPI";
 
-
-export default class Create extends Component<Props, State>  {
+export default class EditPoll extends Component<Props, State>  {
     constructor(props: Props) {
         super(props);
         this.state = {
             items: [],
             value: "",
             error: null,
-            options: [this.option(0)],
-            oId: 0,
+            options: [],
+            pollId: 0,
+            oId:-1,
             title: "",
             text: "",
             selects: [{
@@ -25,6 +25,46 @@ export default class Create extends Component<Props, State>  {
             }]
         };
     }
+
+    componentDidMount() {
+		const {
+			match: { params }
+        } = this.props;
+
+		getPoll(params.pollId).then(res => {
+            
+            this.setState({
+                title: res.data[0].fields.title,
+                pollId: res.data[0].fields.meeting
+            })
+            this.setState({
+                selects:[]
+            } as any)
+
+			getOptions(params.pollId).then(optRes => {
+				for (var i = 0; i < optRes.data.length; i++) {
+
+                    var temp = this.state.selects;
+
+					temp = ({
+						start: {
+							date: optRes.data[i].fields.date,
+							time: optRes.data[i].fields.startTime
+						},
+						end: {
+							date: optRes.data[i].fields.date,
+							time: optRes.data[i].fields.endTime
+						},
+						agreed: optRes.data[i].fields.agree,
+						disagreed: optRes.data[i].fields.disagree
+                    } as any);
+                    
+                    this.makeOption(temp);
+				}
+			}).catch(error => toast.warn(error.response));
+        }).catch(error => { toast.warn(error.response.data); });
+      
+	}
 
     handleInputChange = (event: any) => {
 
@@ -113,14 +153,29 @@ export default class Create extends Component<Props, State>  {
         });
     };
 
-    addOption = (event: any) => {
-        event.preventDefault();
+    makeOption = (input:any) =>{
+        var temp = {
+            start_time: input.start.time,
+            end_time: input.end.time,
+            date: input.start.date
+        };
+
         this.setState({
             oId: this.state.oId + 1
-        })
-        this.setState({
-            options: [...this.state.options, this.option(this.state.oId + 1)]
         });
+
+        this.setState({
+            selects: [...this.state.selects, temp]
+        } as any)
+
+        this.setState({
+            options: [...this.state.options, this.option(this.state.oId)]
+        });
+    }
+
+    addOption = (event: any) => {
+        event.preventDefault();
+
         var temp = {
             start_time: "",
             end_time: "",
@@ -128,8 +183,14 @@ export default class Create extends Component<Props, State>  {
         };
 
         this.setState({
+            oId: this.state.oId + 1,
             selects: [...this.state.selects, temp]
-        } as any)
+        } as any, ()=>{
+            this.setState({
+                options: [...this.state.options, this.option(this.state.oId)]
+            });
+        });
+        
     }
 
     deleteOption = (event: any, ID: any) => {
@@ -147,6 +208,7 @@ export default class Create extends Component<Props, State>  {
             end_time: "",
             date: ""
         };
+
         this.setState({
             selects: updatedSelectArray,
         } as any);
@@ -163,7 +225,9 @@ export default class Create extends Component<Props, State>  {
     }
 
     option = (oId: any) => {
-        var ID = oId;
+        console.log(this.state.selects);
+        console.log(oId);
+
         return (
             <div className="row mb-3">
                 <div className="col-md-4">
@@ -173,6 +237,7 @@ export default class Create extends Component<Props, State>  {
                         placeholder="تاریخ: dd-mm-yyyy "
                         name={"date-" + oId}
                         onChange={this.handleOptionInputChange}
+                        value={this.state.selects[oId].date}
                         required
                     />
                 </div>
@@ -183,6 +248,7 @@ export default class Create extends Component<Props, State>  {
                         placeholder="زمان شروع"
                         name={"start_time-" + oId}
                         onChange={this.handleOptionInputChange}
+                        value={this.state.selects[oId].start_time}
                         required
                     />
                 </div>
@@ -193,6 +259,7 @@ export default class Create extends Component<Props, State>  {
                         placeholder="زمان پایان"
                         name={"end_time-" + oId}
                         onChange={this.handleOptionInputChange}
+                        value={this.state.selects[oId].end_time}
                         required
                     />
                 </div>
@@ -206,7 +273,7 @@ export default class Create extends Component<Props, State>  {
                 <div className="col-md-1">
                     <button
                         className="delete-button"
-                        onClick={(e) => this.deleteOption(e, ID)}
+                        onClick={(e) => this.deleteOption(e, oId)}
                     >
                         -
             </button>
@@ -283,7 +350,7 @@ export default class Create extends Component<Props, State>  {
                                     onSubmit={this.submit}
                                     className="py-3 px-5"
                                 >
-                                    <h1 className="center-text"> ساخت نظرسنجی</h1>
+                                    <h1 className="center-text"> ویرایش نظرسنجی</h1>
                                     <hr />
                                     <div className="row">
                                         <div className="col-md-12">
@@ -291,11 +358,12 @@ export default class Create extends Component<Props, State>  {
                                                 <b>عنوان جلسه</b>
                                             </label>
                                             <input
-                                                type="text"
+                                                type="textarea"
                                                 className="text-box"
                                                 placeholder="عنوان جلسه را وارد کنید"
                                                 name="title"
                                                 onChange={this.handleInputChange}
+                                                value={this.state.title}
                                                 required
                                             />
                                         </div>
@@ -329,14 +397,14 @@ export default class Create extends Component<Props, State>  {
                     </div>
                 </main>
                 <Footer />
-               
             </div>
         );
     }
 }
 
 interface Props { 
-    history:any
+    history:any,
+    match: any;
 }
 
 interface State {
@@ -344,12 +412,13 @@ interface State {
     value: any,
     error: any,
     options: any,
-    oId: any,
     title: any,
+    oId:any,
     text: any,
+    pollId:any,
     selects: [{
         date: any,
         start_time: any,
         end_time: any
-    }]
+    }],
 }

@@ -103,7 +103,7 @@ export default class Login extends Component<Props, State> {
 					</div>
 				</main>
 				<Footer />
-				<ToastContainer />
+
 			</div>
 		);
 	}

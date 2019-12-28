@@ -6,6 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { getPoll, Poll, getOptions, PollOption } from "src/api/PollAPI";
 import PollInfo from "src/views/poll/PollOption";
 import CommentBox from "src/views/common/CommentBox";
+import { Link } from "react-router-dom";
 
 
 export default class poll extends Component<Props, State> {
@@ -26,11 +27,13 @@ export default class poll extends Component<Props, State> {
 		} = this.props;
 
 		getPoll(params.pollId).then(res => {
+			console.log(res);
 			var pollTemp = this.state.poll;
 			pollTemp.title = res.data[0].fields.title;
 			pollTemp.pollId = res.data[0].fields.meeting;
 			getOptions(params.pollId).then(optRes => {
 				for (var i = 0; i < optRes.data.length; i++) {
+					
 					pollTemp.options.push({
 						id: optRes.data[i].pk,
 						start: {
@@ -92,11 +95,13 @@ export default class poll extends Component<Props, State> {
 									<div>
 										<div>
 											<div className="col-4 center">
-												<button
-													type="submit"
-													className="click-button">
-													ویرایش
+												<Link to={"/edit/" + this.state.poll.pollId}>
+													<button
+														type="submit"
+														className="click-button">
+														ویرایش
 												</button>
+												</Link>
 											</div>
 										</div>
 									</div>
@@ -105,8 +110,7 @@ export default class poll extends Component<Props, State> {
 						</div>
 					</div>
 				</main>
-				<Footer />
-				<ToastContainer />
+				<Footer />	
 			</div>
 		);
 	}

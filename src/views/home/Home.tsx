@@ -48,7 +48,6 @@ export default class home extends Component<Props, State> {
           </div>
         </main>
         <Footer />
-        <ToastContainer />
       </div>
     )
   }

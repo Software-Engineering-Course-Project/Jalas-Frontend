@@ -123,7 +123,6 @@ export default class Status extends Component<Props, State> {
                     </div>
                 </main>
                 <Footer />
-                <ToastContainer />
             </div>
         );
 
