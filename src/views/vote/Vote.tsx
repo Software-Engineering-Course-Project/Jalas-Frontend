@@ -79,11 +79,15 @@ export default class Status extends Component<Props, State> {
         }).catch(error => toast.warn(error.response));
 
         canVote(params.pollId).then((res) => {
-
+            if(res.data.value == 2)
+                window.location.assign('/home');
+            console.log(res);
             this.setState({
                 canVote: res.data.value
             })
         }).catch(error => toast.warn(error.response));
+
+        
     }
 
     checkOption = (event: any) => {
@@ -146,7 +150,6 @@ export default class Status extends Component<Props, State> {
     voteOption = ()=>{
         if (this.state.canVote == 1) {
             return (
-
                     <tr>
                         <th>
                             <input
@@ -160,7 +163,6 @@ export default class Status extends Component<Props, State> {
                         </th>
                         {this.checkbox(this.state.times.length)}
                     </tr>
-
             );
         }
     }
@@ -209,11 +211,13 @@ export default class Status extends Component<Props, State> {
                                         </table>
                                         <div className="row justify-content-center">
                                             <div className="col-sm-4">
-                                                <button
-                                                    type="submit"
-                                                    className="signupbtn register-button">
+                                                {this.state.canVote? (<button
+                                                    type="button"
+                                                    className="signupbtn register-button"
+                                                    onClick={()=>this.submit()}>
                                                     ثبت
-											    </button>
+											    </button>):"" }
+                                                
                                             </div>
                                         </div>
                                     </div>
