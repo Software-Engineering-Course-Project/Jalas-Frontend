@@ -5,7 +5,8 @@ import "./Poll.scss";
 import { toast, ToastContainer } from "react-toastify";
 import { getPoll, Poll, getOptions, PollOption } from "src/api/PollAPI";
 import PollInfo from "src/views/poll/PollOption";
-
+import CommentBox from "src/views/common/CommentBox";
+import { Link } from "react-router-dom";
 
 
 export default class poll extends Component<Props, State> {
@@ -16,7 +17,9 @@ export default class poll extends Component<Props, State> {
 				pollId: 0,
 				title: "",
 				options: []
-			}
+			},
+			pollId: 0,
+			status: false
 		}
 	}
 
@@ -25,21 +28,29 @@ export default class poll extends Component<Props, State> {
 			match: { params }
 		} = this.props;
 
+		this.setState({
+			pollId: params.pollId
+		})
+
 		getPoll(params.pollId).then(res => {
 			var pollTemp = this.state.poll;
 			pollTemp.title = res.data[0].fields.title;
 			pollTemp.pollId = res.data[0].fields.meeting;
+			this.setState({
+				status:res.data[0].fields.state
+			})
 			getOptions(params.pollId).then(optRes => {
-				for (var i = 0; i < optRes.data.length ; i++) {
+				for (var i = 0; i < optRes.data.length; i++) {
+
 					pollTemp.options.push({
 						id: optRes.data[i].pk,
 						start: {
 							date: optRes.data[i].fields.date,
-							time:optRes.data[i].fields.startTime
+							time: optRes.data[i].fields.startTime
 						},
 						end: {
 							date: optRes.data[i].fields.date,
-							time:optRes.data[i].fields.endTime
+							time: optRes.data[i].fields.endTime
 						},
 						agreed: optRes.data[i].fields.agree,
 						disagreed: optRes.data[i].fields.disagree
@@ -49,7 +60,7 @@ export default class poll extends Component<Props, State> {
 					poll: pollTemp
 				});
 			}).catch(error => toast.warn(error.response));
-		}).catch(error => {toast.warn(error.response.data);});
+		}).catch(error => { toast.warn(error.response); });
 	}
 
 
@@ -57,15 +68,18 @@ export default class poll extends Component<Props, State> {
 
 		const AllPollOptions = this.state.poll.options.map(option => {
 			return (
-				<PollInfo pollInfo={option} pollID={this.state.poll.pollId} />
+				<PollInfo status={this.state.status} pollInfo={option} pollID={this.state.poll.pollId} />
 			);
 		});
 		return (
 			<div>
-				<Header />
+				<Header isUserLoggedIn={true} />
 				<main>
 					<div className="container h-100">
 						<div className="row justify-content-center align-items-center main-height">
+							<div className="col-md-3">
+								<CommentBox pollId={this.props.match.params.pollId} />
+							</div>
 							<div className="col-md-9">
 								<form className="py-3 px-5">
 									<h1 className="center-text m-4">موضوع:{this.state.poll.title}</h1>
@@ -86,13 +100,28 @@ export default class poll extends Component<Props, State> {
 											</tbody>
 										</table>
 									</div>
+									<div>
+										<div>
+											<div className="col-4 center">
+												{this.state.status ? "" : (
+													<Link to={"/edit/" + this.state.poll.pollId}>
+														<button
+															type="submit"
+															className="click-button">
+															ویرایش
+													</button>
+													</Link>
+												)}
+
+											</div>
+										</div>
+									</div>
 								</form>
 							</div>
 						</div>
 					</div>
 				</main>
 				<Footer />
-				<ToastContainer />
 			</div>
 		);
 	}
@@ -105,5 +134,7 @@ interface Props {
 
 interface State {
 	poll: Poll;
+	pollId: any;
+	status: any;
 }
 

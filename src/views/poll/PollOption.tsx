@@ -11,29 +11,33 @@ export default class PollInfo extends Component<Props, State> {
 
     render() {
         return (
-                <tr>
-                    <td>{this.props.pollInfo.start.date}</td>
-                    <td>{this.props.pollInfo.start.time}</td>
-                    <td>{this.props.pollInfo.end.time}</td>
-                    <td>{this.props.pollInfo.agreed}</td>
-                    <td>{this.props.pollInfo.disagreed}</td>
+            <tr>
+                <td>{this.props.pollInfo.start.date}</td>
+                <td>{this.props.pollInfo.start.time}</td>
+                <td>{this.props.pollInfo.end.time}</td>
+                <td>{this.props.pollInfo.agreed}</td>
+                <td>{this.props.pollInfo.disagreed}</td>
+                {this.props.status ? "" : (
                     <Link to={"/reservation/" + this.props.pollID + "/" + this.props.pollInfo.id}>
-                    <td>
-                        <button
-                            type="submit"
-                            className="submit-button">
-                            ثبت
+                        <td>
+                            <button
+                                type="submit"
+                                className="submit-button">
+                                ثبت
 						</button>
-                    </td>
+                        </td>
                     </Link>
-                </tr>
+                    )}
+
+            </tr>
         );
     }
 }
 
 interface Props {
     pollInfo: PollOption;
-    pollID:number;
+    pollID: number;
+    status: any;
 }
 
 interface State { }
