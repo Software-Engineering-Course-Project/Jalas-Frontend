@@ -4,6 +4,10 @@ stages:
   - build
   - unitTest
   - integerationTest
+  - release
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 cache:
   paths:
@@ -28,3 +32,11 @@ testing_integeration:
   script:
     - npm install --save-dev jest
     - npm test
+
+release:
+  stage: release
+  script:
+    - docker build -t jalas-front .
+    - docker push jalas-front
+  only:
+    - master
