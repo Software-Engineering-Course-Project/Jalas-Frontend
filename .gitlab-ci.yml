@@ -31,8 +31,11 @@ testing_integeration:
     - npm test
 
 release:
+  image: $CI_REGISTRY/group/project/docker:19.03.1
+  services:
+    - name: $CI_REGISTRY/group/project/docker:19.03.1-dind
+      alias: docker
   stage: release
-  image: docker:19.03.1
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t jalas-front .
