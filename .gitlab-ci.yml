@@ -7,6 +7,7 @@ stages:
   - release
 
 before_script:
+  - apk update && apk add bash coreutils curl docker
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 cache:
