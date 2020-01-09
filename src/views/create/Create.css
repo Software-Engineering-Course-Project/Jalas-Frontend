@@ -90,6 +90,26 @@ main {
   -o-border-radius: 5px;
 }
 
+.comment-button {
+  background-color: #4CAF50;
+  color: white;
+  font-size: medium;
+  border-radius: 5px;
+  width: 40%;
+  margin-top: 0.5rem;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.comment-center {
+  margin: auto;
+}
+
 .click-button:hover {
   opacity: 1;
 }

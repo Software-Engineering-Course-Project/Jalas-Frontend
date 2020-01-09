@@ -19,6 +19,7 @@ import Login from 'src/views/Login/Login';
 import Home from 'src/views/home/Home';
 import EditPoll from './views/poll/EditPoll';
 import Logger from './views/Logger/Logger';
+import Comment from './views/comment/Comment';
 
 
 
@@ -36,6 +37,7 @@ ReactDOM.render(
       <Route path="/mymeeting" component={MyMeeting} />
       <Route path="/edit/:pollId" component={EditPoll} />
       <Route path="/log" component={Logger} />
+      <Route path="/comment/:pollId" component={Comment}/>
       <ToastContainer />
     </div>
   </Router>,

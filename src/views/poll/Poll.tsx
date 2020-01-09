@@ -5,7 +5,7 @@ import "./Poll.scss";
 import { toast, ToastContainer } from "react-toastify";
 import { getPoll, Poll, getOptions, PollOption } from "src/api/PollAPI";
 import PollInfo from "src/views/poll/PollOption";
-import CommentBox from "src/views/common/CommentBox";
+import CommentBox from "src/views/comment/Comment";
 import { Link } from "react-router-dom";
 
 
@@ -37,7 +37,7 @@ export default class poll extends Component<Props, State> {
 			pollTemp.title = res.data[0].fields.title;
 			pollTemp.pollId = res.data[0].fields.meeting;
 			this.setState({
-				status:res.data[0].fields.state
+				status: res.data[0].fields.state
 			})
 			getOptions(params.pollId).then(optRes => {
 				for (var i = 0; i < optRes.data.length; i++) {
@@ -77,10 +77,7 @@ export default class poll extends Component<Props, State> {
 				<main>
 					<div className="container h-100">
 						<div className="row justify-content-center align-items-center main-height">
-							<div className="col-md-3">
-								<CommentBox pollId={this.props.match.params.pollId} />
-							</div>
-							<div className="col-md-9">
+							<div className="col-md-12">
 								<form className="py-3 px-5">
 									<h1 className="center-text m-4">موضوع:{this.state.poll.title}</h1>
 									<div>
@@ -112,7 +109,13 @@ export default class poll extends Component<Props, State> {
 													</button>
 													</Link>
 												)}
-
+												<Link to={"/comment/" + this.state.poll.pollId}>
+													<button
+														type="submit"
+														className="click-button">
+														دیدن کامنت‌ها
+													</button>
+												</Link>
 											</div>
 										</div>
 									</div>

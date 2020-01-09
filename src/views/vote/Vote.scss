@@ -19,3 +19,61 @@
 .checkbox-size {
     font-size: xx-large;
 }
+
+// .card {
+//     border-radius: 4px;
+//     box-sizing: border-box;
+//     overflow: hidden;
+//     width: 320px;
+
+
+//     .content {
+//         background-color: #f4f7fb;
+//         padding: 1.5rem 2.5rem;
+
+//         .row {
+//             border-bottom: solid 1px #e2e5ea;
+//             padding: 0.75rem 0;
+//             -webkit-user-select: none;
+//             -moz-user-select: -moz-none;
+//             user-select: none;
+
+//             &:last-child {
+//                 border: none;
+//             }
+//         }
+//     }
+// }
+
+.checkbox {
+    background-color: #fff;
+    border: solid 1px #d7d7d7;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    height: 32px;
+    margin-right: 1rem;
+    text-align: center;
+    width: 32px;
+    vertical-align: middle;
+
+    svg {
+        margin-top: 6px;
+        stroke: #fff;
+    }
+}
+
+.positive {
+    background-color: #4aca65;
+    border-color: #43b45b;
+}
+
+.negative {
+    background-color: #dc4e4e;
+    border-color: #c74545;
+}
+
+.label {
+    font-weight: bold;
+    vertical-align: middle;
+}

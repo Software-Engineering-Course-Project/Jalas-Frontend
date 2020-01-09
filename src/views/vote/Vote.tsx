@@ -8,7 +8,7 @@ import "src/views/vote/Vote.scss";
 import { getPollTime, getPollUser, postVote, canVote, getPollTitle } from 'src/api/VoteAPI';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
-import CommentBox from "src/views/common/CommentBox";
+import { Link } from "react-router-dom";
 
 export default class Status extends Component<Props, State> {
     constructor(props: Props) {
@@ -41,8 +41,9 @@ export default class Status extends Component<Props, State> {
         } = this.props;
 
         getPollTitle(params.pollId).then(res => {
+            console.log(res)
             this.setState({
-                title: res.data[0].fields.title
+                title: res.data.title
             })
         }).catch(error => { toast.warn(error.response); });
 
@@ -79,7 +80,7 @@ export default class Status extends Component<Props, State> {
         }).catch(error => toast.warn(error.response));
 
         canVote(params.pollId).then((res) => {
-            if(res.data.value == 2)
+            if (res.data.value == 2)
                 window.location.assign('/home');
             console.log(res);
             this.setState({
@@ -87,7 +88,7 @@ export default class Status extends Component<Props, State> {
             })
         }).catch(error => toast.warn(error.response));
 
-        
+
     }
 
     checkOption = (event: any) => {
@@ -128,6 +129,14 @@ export default class Status extends Component<Props, State> {
                         }
                         label=""
                     />
+                    
+                        
+                        {/* <select className="form-control" id="sel1">
+                            <option>موافقم</option>
+                            <option>مخالفم</option>
+                            <option>در صورت نیاز</option>
+                        </select> */}
+                    
                 </td>)
 
         }
@@ -142,27 +151,27 @@ export default class Status extends Component<Props, State> {
             name: this.state.name,
             vote: this.state.vote
         };
-
-        postVote(params.pollId, data).catch(error => { toast.warn(error.response); });
+        if(this.state.name != "")
+            postVote(params.pollId, data).catch(error => { toast.warn(error.response); });
 
     }
 
-    voteOption = ()=>{
+    voteOption = () => {
         if (this.state.canVote == 1) {
             return (
-                    <tr>
-                        <th>
-                            <input
-                                type="text"
-                                className="text-box col-5"
-                                placeholder="نام خود را وارد کنید"
-                                name="name"
-                                required
-                                onChange={this.handleInputChange}
-                            />
-                        </th>
-                        {this.checkbox(this.state.times.length)}
-                    </tr>
+                <tr>
+                    <th>
+                        <input
+                            type="text"
+                            className="text-box col-5"
+                            placeholder="نام خود را وارد کنید"
+                            name="name"
+                            required
+                            onChange={this.handleInputChange}
+                        />
+                    </th>
+                    {this.checkbox(this.state.times.length)}
+                </tr>
             );
         }
     }
@@ -194,10 +203,8 @@ export default class Status extends Component<Props, State> {
                 <main>
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center main-height">
-                            <div className="col-md-3">
-                                <CommentBox pollId={this.props.match.params.pollId}></CommentBox>
-                            </div>
-                            <div className="col-md-9">
+
+                            <div className="col-md-12">
                                 <form className="py-3 px-5" onSubmit={this.submit}>
                                     <h1 className="center-text m-4">موضوع:{this.state.title}</h1>
                                     <div >
@@ -211,13 +218,23 @@ export default class Status extends Component<Props, State> {
                                         </table>
                                         <div className="row justify-content-center">
                                             <div className="col-sm-4">
-                                                {this.state.canVote? (<button
-                                                    type="button"
+                                                {this.state.canVote ? (<button
+                                                    type="submit"
                                                     className="signupbtn register-button"
-                                                    onClick={()=>this.submit()}>
+                                                    onClick={() => this.submit()}>
                                                     ثبت
-											    </button>):"" }
-                                                
+											    </button>) : ""}
+
+                                            </div>
+                                            <div className="col-sm-4">
+                                                <Link to={"/comment/" + this.props.match.params.pollId}>
+                                                    <button
+                                                        type="submit"
+                                                        className=" click-button register-button">
+                                                        دیدن کامنت‌ها
+													</button>
+                                                </Link>
+
                                             </div>
                                         </div>
                                     </div>

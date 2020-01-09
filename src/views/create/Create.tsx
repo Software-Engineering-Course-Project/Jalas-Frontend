@@ -234,7 +234,7 @@ export default class Create extends Component<Props, State>  {
 
         postCreatePoll(content).catch(error => { toast.warn(error.response.data); })
         toast.success("جلسه با موفقیت ساخته شد.");
-        this.props.history.push('/home');
+        setTimeout(()=>{this.props.history.push('/home')}, 100);
     }
 
     render() {
@@ -314,8 +314,9 @@ export default class Create extends Component<Props, State>  {
                                     <div className="row justify-content-center">
                                         <div className="col-sm-4">
                                                 <button
-                                                    type="submit"
+                                                    type="button"
                                                     className="signupbtn register-button mt-3"
+                                                    onClick={()=>{this.submit()}}
                                                 >
                                                     ثبت
 											</button>
