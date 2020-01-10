@@ -49,15 +49,21 @@ export default class EditPoll extends Component<Props, State>  {
                 for (var i = 0; i < optRes.data.length; i++) {
 
                     var temp = this.state.selects;
+                    var timeToken = optRes.data[i].fields.startTime;
+                    timeToken = timeToken.split(':');
+                    var start = timeToken[0] + ":" + timeToken[1];
 
+                    var timeToken = optRes.data[i].fields.endTime;
+                    timeToken = timeToken.split(':');
+                    var end = timeToken[0] + ":" + timeToken[1];
                     temp = ({
                         start: {
                             date: optRes.data[i].fields.date,
-                            time: optRes.data[i].fields.startTime
+                            time: start
                         },
                         end: {
                             date: optRes.data[i].fields.date,
-                            time: optRes.data[i].fields.endTime
+                            time: end
                         },
                         agreed: optRes.data[i].fields.agree,
                         disagreed: optRes.data[i].fields.disagree
@@ -237,7 +243,7 @@ export default class EditPoll extends Component<Props, State>  {
     option = (oId: any) => {
 
         return (
-            <div className="row mb-3">
+            <div className="row">
                 <div className="col-md-4">
                     <input
                         type="text"
@@ -253,7 +259,7 @@ export default class EditPoll extends Component<Props, State>  {
                     <input
                         type="text"
                         className="text-box "
-                        placeholder="زمان شروع"
+                        placeholder="زمان شروع: HH:MM"
                         name={"start_time-" + oId}
                         onChange={this.handleOptionInputChange}
                         value={this.state.selects[oId].start_time}
@@ -264,7 +270,7 @@ export default class EditPoll extends Component<Props, State>  {
                     <input
                         type="text"
                         className="text-box"
-                        placeholder="زمان پایان"
+                        placeholder="زمان پایان: HH:MM"
                         name={"end_time-" + oId}
                         onChange={this.handleOptionInputChange}
                         value={this.state.selects[oId].end_time}
@@ -338,7 +344,7 @@ export default class EditPoll extends Component<Props, State>  {
                     <input
                         className={(this.state.error && " has-error") + " text-box"}
                         value={this.state.value}
-                        placeholder="ایمیل شرکت ‌کننده را وارد نمایید"
+                        placeholder="ایمیل شرکت ‌کننده را وارد نمایید و enter نمایید"
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}
                     />

@@ -4,8 +4,6 @@ import Footer from "src/views/common/Footer";
 import "./Create.scss";
 import { toast, ToastContainer } from "react-toastify";
 import { postCreatePoll, getPollId } from 'src/api/CreateAPI';
-import { Link } from "react-router-dom";
-
 
 export default class Create extends Component<Props, State>  {
     constructor(props: Props) {
@@ -165,12 +163,12 @@ export default class Create extends Component<Props, State>  {
     option = (oId: any) => {
         var ID = oId;
         return (
-            <div className="row mb-3">
+            <div className="row">
                 <div className="col-md-4">
                     <input
                         type="text"
                         className="text-box"
-                        placeholder="تاریخ: dd-mm-yyyy "
+                        placeholder="تاریخ: yyyy-mm-dd "
                         name={"date-" + oId}
                         onChange={this.handleOptionInputChange}
                         required
@@ -180,7 +178,7 @@ export default class Create extends Component<Props, State>  {
                     <input
                         type="text"
                         className="text-box "
-                        placeholder="زمان شروع"
+                        placeholder="زمان شروع: HH:MM"
                         name={"start_time-" + oId}
                         onChange={this.handleOptionInputChange}
                         required
@@ -190,7 +188,7 @@ export default class Create extends Component<Props, State>  {
                     <input
                         type="text"
                         className="text-box"
-                        placeholder="زمان پایان"
+                        placeholder="زمان پایان: HH:MM"
                         name={"end_time-" + oId}
                         onChange={this.handleOptionInputChange}
                         required
@@ -215,7 +213,8 @@ export default class Create extends Component<Props, State>  {
         );
     }
 
-    submit = () => {
+    submit = (event:any) => {
+        event.preventDefault();
         var i;
         var options = [];
         for (i = 0; i < this.state.selects.length; i++) {
@@ -223,7 +222,12 @@ export default class Create extends Component<Props, State>  {
                 options.push(this.state.selects[i]);
             }
         }
-
+        console.log('hereeeee');
+        if(this.state.items.length == 0){
+            toast.warn('لطفا یک ایمیل وارد کنید و enter نمایید.')
+            return;
+        }
+            
         var content = {
             title: this.state.title,
             text: this.state.text,
@@ -234,7 +238,8 @@ export default class Create extends Component<Props, State>  {
 
         postCreatePoll(content).catch(error => { toast.warn(error.response.data); })
         toast.success("جلسه با موفقیت ساخته شد.");
-        setTimeout(()=>{this.props.history.push('/home')}, 100);
+
+        setTimeout(() => { window.location.assign('/home') }, 100);
     }
 
     render() {
@@ -263,7 +268,7 @@ export default class Create extends Component<Props, State>  {
                     <input
                         className={(this.state.error && " has-error") + " text-box"}
                         value={this.state.value}
-                        placeholder="ایمیل شرکت ‌کننده را وارد نمایید"
+                        placeholder=" ایمیل شرکت ‌کننده را وارد نمایید و enter نمایید"
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}
                     />
@@ -313,14 +318,15 @@ export default class Create extends Component<Props, State>  {
 
                                     <div className="row justify-content-center">
                                         <div className="col-sm-4">
-                                                <button
-                                                    type="button"
-                                                    className="signupbtn register-button mt-3"
-                                                    onClick={()=>{this.submit()}}
-                                                >
-                                                    ثبت
+                                            <button
+                                                type="submit"
+                                                className="signupbtn register-button mt-3"
+                                                onSubmit={(e:any) => this.submit(e)}
+                                                // onClick={ this.submit }
+                                            >
+                                                ثبت
 											</button>
-                                            
+
                                         </div>
                                     </div>
 
@@ -330,14 +336,14 @@ export default class Create extends Component<Props, State>  {
                     </div>
                 </main>
                 <Footer />
-               
+
             </div>
         );
     }
 }
 
-interface Props { 
-    history:any
+interface Props {
+    history: any
 }
 
 interface State {

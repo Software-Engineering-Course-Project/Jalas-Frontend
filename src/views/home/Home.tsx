@@ -30,9 +30,14 @@ export default class home extends Component<Props, State> {
     
 
     const AllPoll = this.state.allPolls.map((poll:any) => {
+      console.log(poll);
       return (
         <PollInfo poll={poll}  onProjectClick={() => {
-          window.location.assign("/poll/" + poll.fields.meeting);
+        
+          if(poll.fields.is_owner == true)
+            window.location.assign("/poll/" + poll.fields.meeting);
+          else if(poll.fields.is_owner == false)
+            window.location.assign("/vote/" + poll.fields.meeting);
         }} />
       );
     });
@@ -42,7 +47,10 @@ export default class home extends Component<Props, State> {
         <Header isUserLoggedIn={true} />
         <main>
           <div className="container main">
+            
             <div className="col-12 projects">
+            <h1 className="center-text">نظرسنجی‌های من</h1>
+                                    <hr />
               {AllPoll}
             </div>
           </div>

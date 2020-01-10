@@ -20,7 +20,9 @@ export default class Comment extends Component<Props, State> {
                 level: 0,
                 pk: 0,
                 isReply: false,
-                reply: ""
+                reply: "",
+                canDelete: true,
+                canEdit: true
             }]
         }
     }
@@ -41,6 +43,8 @@ export default class Comment extends Component<Props, State> {
                         text: res.data[i].fields.text,
                         author: res.data[i].fields.username,
                         level: res.data[i].fields.level,
+                        canEdit: res.data[i].fields.can_edit,
+                        canDelete: res.data[i].fields.can_delete,
                         isEdit: false,
                         pk: res.data[i].pk,
                         isReply: false,
@@ -88,24 +92,27 @@ export default class Comment extends Component<Props, State> {
                         پاسخ
                             </button>
                 </div>
-                <div className="col-4 ">
-                    <button
-                        onClick={() => this.editComment(index)}
-                        className="btn btn-info">
-                        ویرایش
-                            </button>
-                </div>
                 <div className="col-4">
                     <form>
-                        <button
+                        {this.state.comments[index].canDelete ? (<button
                             type="button"
                             className="btn btn-danger"
                             onClick={() => this.deleteComment(index)}
                         >
                             حذف
-                            </button>
+                            </button>) : ""}
+
                     </form>
                 </div>
+                <div className="col-4 ">
+                    {this.state.comments[index].canEdit ? (<button
+                        onClick={() => this.editComment(index)}
+                        className="btn btn-info">
+                        ویرایش
+                            </button>) : ""}
+
+                </div>
+
             </div>
         );
     }
@@ -221,7 +228,7 @@ export default class Comment extends Component<Props, State> {
                                 <div className="col-8 center">
                                     <div className="row">
                                         <div>
-                                            {c.author} : &nbsp;
+                                        &nbsp; {c.author} : &nbsp;
                                     </div>
                                         <div className="make-ltr">
                                             {c.isEdit ? this.showEdit(index, c.text) : c.text}
@@ -317,6 +324,8 @@ interface State {
         level: any,
         pk: any,
         isReply: any,
-        reply: any
+        reply: any,
+        canDelete: any,
+        canEdit: any
     }]
 }
