@@ -6,6 +6,7 @@ COPY . /usr/src/app
 
 RUN npm install
 RUN npm install -g serve
+RUN npm rebuild node-sass
 RUN npm run build
 RUN rm -rf node_modules
 
