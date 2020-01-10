@@ -21,6 +21,7 @@ import EditPoll from './views/poll/EditPoll';
 import Logger from './views/Logger/Logger';
 import Comment from './views/comment/Comment';
 import Register from './views/register/Register';
+import Setting from './views/setting/Setting';
 
 
 
@@ -41,6 +42,7 @@ ReactDOM.render(
         <Route path="/log" component={Logger} />
         <Route path="/comment/:pollId" component={Comment} />
         <Route path="/register" component={Register} />
+        <Route path="/setting" component={Setting}/>
         <Route path="/" component={Login}/>
       </Switch>
       <ToastContainer />

@@ -16,6 +16,7 @@ export default class Create extends Component<Props, State>  {
             oId: 0,
             title: "",
             text: "",
+            closeDate:"",
             selects: [{
                 start_time: "",
                 end_time: "",
@@ -213,7 +214,7 @@ export default class Create extends Component<Props, State>  {
         );
     }
 
-    submit = (event:any) => {
+    submit = (event: any) => {
         event.preventDefault();
         var i;
         var options = [];
@@ -223,11 +224,11 @@ export default class Create extends Component<Props, State>  {
             }
         }
         console.log('hereeeee');
-        if(this.state.items.length == 0){
+        if (this.state.items.length == 0) {
             toast.warn('لطفا یک ایمیل وارد کنید و enter نمایید.')
             return;
         }
-            
+
         var content = {
             title: this.state.title,
             text: this.state.text,
@@ -309,6 +310,20 @@ export default class Create extends Component<Props, State>  {
                                     <div>
                                         {participants}
                                     </div>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <label>
+                                                <b>زمان بستن نظرسنجی</b>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="text-box"
+                                                placeholder="تاریخ: yyyy-mm-dd"
+                                                name="closeDate"
+                                                onChange={this.handleInputChange}  
+                                            />
+                                        </div>
+                                    </div>
                                     <div>
                                         <label className="mt-3">
                                             <b>گزینه‌ها</b>
@@ -321,8 +336,8 @@ export default class Create extends Component<Props, State>  {
                                             <button
                                                 type="submit"
                                                 className="signupbtn register-button mt-3"
-                                                onSubmit={(e:any) => this.submit(e)}
-                                                // onClick={ this.submit }
+                                                onSubmit={(e: any) => this.submit(e)}
+                                            // onClick={ this.submit }
                                             >
                                                 ثبت
 											</button>
@@ -354,6 +369,7 @@ interface State {
     oId: any,
     title: any,
     text: any,
+    closeDate: any,
     selects: [{
         date: any,
         start_time: any,
