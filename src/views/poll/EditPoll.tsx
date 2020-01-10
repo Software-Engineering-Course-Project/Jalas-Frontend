@@ -16,6 +16,7 @@ export default class EditPoll extends Component<Props, State>  {
             options: [],
             pollId: 0,
             oId: -1,
+            closeDate:"",
             title: "",
             text: "",
             selects: [{
@@ -36,9 +37,10 @@ export default class EditPoll extends Component<Props, State>  {
                 toast.warn("این نظرسنجی به اتمام رسیده است.");
                 window.location.assign('/home');
             }
-
+            console.log(res);
             this.setState({
                 title: res.data[0].fields.title,
+                closeDate:res.data[0].fields.date_close,
                 pollId: res.data[0].fields.meeting
             })
             this.setState({
@@ -310,6 +312,7 @@ export default class EditPoll extends Component<Props, State>  {
             text: this.state.text,
             participants: this.state.items,
             selects: options,
+            closeDate: this.state.closeDate,
             link: "http://localhost:3000/vote/"
         };
 
@@ -394,6 +397,21 @@ export default class EditPoll extends Component<Props, State>  {
                                     <div>
                                         {participants}
                                     </div>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <label>
+                                                <b>زمان بستن نظرسنجی</b>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="text-box"
+                                                placeholder="تاریخ: yyyy-mm-dd"
+                                                name="closeDate"
+                                                value={this.state.closeDate}
+                                                onChange={this.handleInputChange}  
+                                            />
+                                        </div>
+                                    </div>
                                     <div>
                                         <label className="mt-3">
                                             <b>گزینه‌ها</b>
@@ -438,6 +456,7 @@ interface State {
     oId: any,
     text: any,
     pollId: any,
+    closeDate:any,
     selects: [{
         date: any,
         start_time: any,

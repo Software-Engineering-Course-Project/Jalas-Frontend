@@ -35,7 +35,8 @@ export default class Setting extends Component<Props, State> {
             removeOption: false,
             newParticipant: false,
             closePoll: false,
-            closeMeeting: false
+            closeMeeting: false,
+            createPoll: false
         }
     }
 
@@ -71,6 +72,10 @@ export default class Setting extends Component<Props, State> {
             this.setState({
                 [name]: !this.state.closeMeeting
             } as any);
+        } else if (name == 'createPoll') {
+            this.setState({
+                [name]: !this.state.createPoll
+            } as any);
         }
     };
 
@@ -84,16 +89,17 @@ export default class Setting extends Component<Props, State> {
                 removeOption: res.data[0].fields.remove_option,
                 newParticipant: res.data[0].fields.add_new_participant,
                 closePoll: res.data[0].fields.close_poll,
-                closeMeeting: res.data[0].fields.close_meeting
+                closeMeeting: res.data[0].fields.close_meeting,
+                createPoll: res.data[0].fields.create_poll
             })
         }).catch((err) => toast.warn(err.response))
     }
 
     submit = () => {
 
-        
         var temp = {
             arrange_meeting: this.state.arrangeMetting,
+            create_poll: this.state.createPoll,
             add_option:this.state.addOption ,
             new_vote:this.state.newVote ,
             remove_option:this.state.removeOption ,
@@ -101,8 +107,7 @@ export default class Setting extends Component<Props, State> {
             close_poll:this.state.closePoll ,
             close_meeting:this.state.closeMeeting 
         }
-        console.log(temp);
-        alert("hereeee");
+
         setSetting(temp).then((res)=>{
             toast.success('تنظیمات با موفقیت به روز رسانی شد.')
         }).catch((err) => toast.warn(err.response));
@@ -124,10 +129,11 @@ export default class Setting extends Component<Props, State> {
                                             <thead className="thead-dark">
                                                 <tr>
                                                     <th scope="col">رزرو کامل</th>
+                                                    <th scope="col">ساخت نظرسنجی</th>
                                                     <th scope="col">اضافه شدن گزینه</th>
                                                     <th scope="col">رای جدید</th>
                                                     <th scope="col">حذف گزینه</th>
-                                                    <th scope="col">اضافه شدن شرکت کننده</th>
+                                                    <th scope="col">تغیرات شرکت کنندگان</th>
                                                     <th scope="col">بستن نظرسنجی</th>
                                                     <th scope="col">لغو جلسه</th>
 
@@ -139,6 +145,13 @@ export default class Setting extends Component<Props, State> {
                                                         checked={this.state.arrangeMetting === true}
                                                         onClick={this.handleInputChange}
                                                         name="arrangeMetting"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <GreenRadio
+                                                        checked={this.state.createPoll === true}
+                                                        onClick={this.handleInputChange}
+                                                        name="createPoll"
                                                     />
                                                 </td>
                                                 <td>
@@ -215,5 +228,6 @@ interface State {
     removeOption: any,
     newParticipant: any,
     closePoll: any,
-    closeMeeting: any
+    closeMeeting: any,
+    createPoll: any
 }

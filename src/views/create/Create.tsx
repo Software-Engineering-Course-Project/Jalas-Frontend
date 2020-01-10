@@ -234,6 +234,7 @@ export default class Create extends Component<Props, State>  {
             text: this.state.text,
             participants: this.state.items,
             selects: options,
+            closeDate: this.state.closeDate,
             link: "http://localhost:3000/vote/"
         };
 
@@ -337,7 +338,6 @@ export default class Create extends Component<Props, State>  {
                                                 type="submit"
                                                 className="signupbtn register-button mt-3"
                                                 onSubmit={(e: any) => this.submit(e)}
-                                            // onClick={ this.submit }
                                             >
                                                 ثبت
 											</button>
