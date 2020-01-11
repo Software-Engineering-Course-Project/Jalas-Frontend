@@ -7,7 +7,8 @@ export default class Header extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
-			username:""
+			username:"",
+			log:false
 		}
 	}
 
@@ -45,12 +46,16 @@ export default class Header extends Component<Props, State> {
 	}
 
 	componentDidMount = ()=>{
-		getUserName().then((res)=>{
-
-			this.setState({
-				username: res.data[0].fields.username
+		if(this.props.isUserLoggedIn)
+			getUserName().then((res)=>{
+				this.setState({
+					username: res.data[0].fields.username
+				})
+				if(res.data[0].fields.username == 'admin')
+					this.setState({
+						log:true
+					});
 			})
-		})
 	}
 
 	userHeader = () => {
@@ -81,6 +86,12 @@ export default class Header extends Component<Props, State> {
 										className="col-auto profile-link">
 										حساب کاربری
 									</a>
+									{this.state.log?(<a
+										href={"/log"}
+										className="col-auto profile-link">
+										اطلاعات سیستم
+									</a>):""}
+									
 									<a
 										href={"/setting"}
 										className="col-auto profile-link">
@@ -103,5 +114,6 @@ interface Props {
 	isUserLoggedIn: boolean;
 }
 interface State {
-	username: any
+	username: any,
+	log:any
 }

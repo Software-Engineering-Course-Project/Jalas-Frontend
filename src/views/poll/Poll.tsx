@@ -134,13 +134,15 @@ export default class poll extends Component<Props, State> {
 														دیدن کامنت‌ها
 													</button>
 												</Link>
-												<Link to={"/vote/" + this.state.poll.pollId}>
+												{!this.state.status ? (
+													<Link to={"/vote/" + this.state.poll.pollId}>
 													<button
 														type="submit"
 														className="click-button">
 														رای دادن
 													</button>
 												</Link>
+												) : ""}
 
 												{!this.state.status ? (
 													<button
