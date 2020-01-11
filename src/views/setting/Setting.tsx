@@ -123,7 +123,7 @@ export default class Setting extends Component<Props, State> {
                         <div className="row justify-content-center align-items-center main-height">
                             <div className="col-md-12">
                                 <form className="py-3 px-5" onSubmit={this.submit}>
-                                    <h1 className="center-text m-4">تنظیمات</h1>
+                                    <h1 className="center-text m-4">تنظیمات ارسال ایمیل</h1>
                                     <div>
                                         <table className="table table-hover">
                                             <thead className="thead-dark">

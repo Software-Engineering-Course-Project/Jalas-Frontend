@@ -235,7 +235,7 @@ export default class Create extends Component<Props, State>  {
             participants: this.state.items,
             selects: options,
             closeDate: this.state.closeDate,
-            link: "http://localhost:3000/vote/"
+            link: "http://localhost:5000/vote/"
         };
 
         postCreatePoll(content).catch(error => { toast.warn(error.response.data); })

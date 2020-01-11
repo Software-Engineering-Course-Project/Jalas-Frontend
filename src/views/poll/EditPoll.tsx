@@ -313,7 +313,7 @@ export default class EditPoll extends Component<Props, State>  {
             participants: this.state.items,
             selects: options,
             closeDate: this.state.closeDate,
-            link: "http://localhost:3000/vote/"
+            link: "http://localhost:5000/vote/"
         };
 
         modifyPoll(this.props.match.params.pollId, content).catch(error => { toast.warn(error.response.data); })

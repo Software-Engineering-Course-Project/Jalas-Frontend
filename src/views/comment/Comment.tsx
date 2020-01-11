@@ -129,12 +129,12 @@ export default class Comment extends Component<Props, State> {
     }
 
     submitEdit = (index: any, text: any) => {
-
-        sendEditComment(this.state.comments[index].pk, text).catch((error) => {
-            toast.warn(error.data);
-        });
-
-        this.props.history.push('/comment/' + this.state.pollId);
+        if (text != "") {
+            sendEditComment(this.state.comments[index].pk, text).catch((error) => {
+                toast.warn(error.data);
+            });
+            this.props.history.push('/comment/' + this.state.pollId);
+        }
     }
 
     showEdit = (index: any, text: any) => {
@@ -171,10 +171,12 @@ export default class Comment extends Component<Props, State> {
     }
 
     sendReply = (index: any) => {
-        sendReply(this.state.comments[index].pk, this.state.comments[index].reply).catch((error) => {
-            toast.warn(error.data);
-        });
-        this.props.history.push('/comment/' + this.state.pollId);
+        if (this.state.comments[index].reply != "") {
+            sendReply(this.state.comments[index].pk, this.state.comments[index].reply).catch((error) => {
+                toast.warn(error.data);
+            });
+            this.props.history.push('/comment/' + this.state.pollId);
+        }
     }
 
     handleReplyInputChange = (event: any, index: any) => {
@@ -228,7 +230,7 @@ export default class Comment extends Component<Props, State> {
                                 <div className="col-8 center">
                                     <div className="row">
                                         <div>
-                                        &nbsp; {c.author} : &nbsp;
+                                            &nbsp; {c.author} : &nbsp;
                                     </div>
                                         <div className="make-ltr">
                                             {c.isEdit ? this.showEdit(index, c.text) : c.text}
@@ -259,10 +261,12 @@ export default class Comment extends Component<Props, State> {
     };
 
     submit = () => {
-        sendComment(this.state.pollId, this.state.text).catch((error) => {
-            toast.warn(error.data);
-        });
-        this.props.history.push('/comment/' + this.state.pollId);
+        if (this.state.text != "") {
+            sendComment(this.state.pollId, this.state.text).catch((error) => {
+                toast.warn(error.data);
+            });
+            this.props.history.push('/comment/' + this.state.pollId);
+        }
     }
 
     render() {
