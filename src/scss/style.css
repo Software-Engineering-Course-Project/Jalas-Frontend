@@ -17,6 +17,10 @@ main {
   direction: ltr;
 }
 
+.make-rtl {
+  direction: rtl;
+}
+
 .main-height {
   min-height: calc(100vh - 60px - 65px);
 }
@@ -28,5 +32,11 @@ main {
 input {
   border: none;
   outline: none;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
 }
 /*# sourceMappingURL=style.css.map */

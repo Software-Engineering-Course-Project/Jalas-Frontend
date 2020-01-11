@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import "src/views/common/Header.scss";
 import "src/scss/style.scss";
 import logoUrl from "src/resources/img/logo_v1.png";
+import {getUserName} from "src/api/AuthAPI";
 export default class Header extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
+		this.state = {
+			username:"",
+			log:false
+		}
 	}
 
 	render() {
@@ -16,11 +21,6 @@ export default class Header extends Component<Props, State> {
 			const result = this.guestHeader();
 			return result;
 		}
-	}
-
-	username = () => {
-		var token = localStorage.getItem('token');
-
 	}
 
 	guestHeader = () => {
@@ -45,7 +45,21 @@ export default class Header extends Component<Props, State> {
 		window.location.assign('/login');
 	}
 
+	componentDidMount = ()=>{
+		if(this.props.isUserLoggedIn)
+			getUserName().then((res)=>{
+				this.setState({
+					username: res.data[0].fields.username
+				})
+				if(res.data[0].fields.username == 'admin')
+					this.setState({
+						log:true
+					});
+			})
+	}
+
 	userHeader = () => {
+		
 		return (
 			<header>
 				<div className="header">
@@ -53,6 +67,7 @@ export default class Header extends Component<Props, State> {
 						<div className="row justify-content-between align-items-center">
 							<div id="logo" className="col-auto">
 								<a href="/home"><img src={logoUrl} alt="jobonja-logo" /></a>
+								&nbsp; {this.state.username} خوش آمدید.
 							</div>
 							<nav className="col-auto">
 								<div className="row align-items-center">
@@ -71,6 +86,17 @@ export default class Header extends Component<Props, State> {
 										className="col-auto profile-link">
 										حساب کاربری
 									</a>
+									{this.state.log?(<a
+										href={"/log"}
+										className="col-auto profile-link">
+										اطلاعات سیستم
+									</a>):""}
+									
+									<a
+										href={"/setting"}
+										className="col-auto profile-link">
+										تنظیمات
+									</a>
 									<a className="profile-link" href="/login" onClick={this.logout}>
 										<div className="col-auto">خروج</div>
 									</a>
@@ -87,4 +113,7 @@ export default class Header extends Component<Props, State> {
 interface Props {
 	isUserLoggedIn: boolean;
 }
-interface State { }
+interface State {
+	username: any,
+	log:any
+}

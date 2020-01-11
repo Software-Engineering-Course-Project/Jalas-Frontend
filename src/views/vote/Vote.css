@@ -19,4 +19,37 @@
 .checkbox-size {
   font-size: xx-large;
 }
+
+.checkbox {
+  background-color: #fff;
+  border: solid 1px #d7d7d7;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  height: 32px;
+  margin-right: 1rem;
+  text-align: center;
+  width: 32px;
+  vertical-align: middle;
+}
+
+.checkbox svg {
+  margin-top: 6px;
+  stroke: #fff;
+}
+
+.positive {
+  background-color: #4aca65;
+  border-color: #43b45b;
+}
+
+.negative {
+  background-color: #dc4e4e;
+  border-color: #c74545;
+}
+
+.label {
+  font-weight: bold;
+  vertical-align: middle;
+}
 /*# sourceMappingURL=Vote.css.map */

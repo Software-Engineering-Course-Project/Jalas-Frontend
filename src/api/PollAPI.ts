@@ -20,6 +20,10 @@ export const modifyPoll = (pollId:number , data: any)=>{
     return API.post("/poll/modify/"+pollId , data);
 }
 
+export const closePoll = (pollId:number)=>{
+    return API.get("/poll/close/" + pollId );
+}
+
 export interface Poll{
     pollId: number;
     title: string;
@@ -32,6 +36,7 @@ export interface PollOption{
     end: Time;
     agreed: number;
     disagreed: number;
+    if_needed: number;
 }
 
 export interface Time{

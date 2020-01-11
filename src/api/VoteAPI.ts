@@ -19,3 +19,7 @@ export const canVote = (pollId:number) =>{
 export const getPollTitle = (pollId:number) =>{
     return API.get("/poll/get_poll_title/" + pollId);
 }
+
+export const getVoterName = (pollId:number) =>{
+    return API.get("/poll/get_voter_name/" + pollId);
+}

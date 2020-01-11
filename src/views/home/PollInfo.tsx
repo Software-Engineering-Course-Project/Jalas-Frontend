@@ -14,7 +14,8 @@ export default class PollInfo extends Component<Props, State> {
        
         return (
             <div className="row project" onClick={this.props.onProjectClick}>
-                    <h5 className="title p-3 center-text">{this.props.poll.fields.title}</h5>
+                    <h5 className="title p-3 center-text">{this.props.poll.fields.title} <h6>{this.props.poll.fields.status?"(بسته شده)":"(در حال برگزاری)"}</h6> </h5>
+                    
             </div>
         );
     }

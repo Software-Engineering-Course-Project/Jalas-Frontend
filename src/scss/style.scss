@@ -17,6 +17,10 @@ main {
 	direction: ltr;
 }
 
+.make-rtl{
+	direction: rtl;
+}
+
 .main-height {
 	min-height: calc(100vh - 60px - 65px);
 }

@@ -2,7 +2,24 @@ import React, { Component } from "react";
 import "src/scss/style.scss";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
+import { withStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
+import Radio, { RadioProps } from '@material-ui/core/Radio';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+
 import "src/views/vote/Vote.scss";
+
+const GreenRadio = withStyles({
+    root: {
+        color: green[400],
+        '&$checked': {
+            color: green[600],
+        },
+    },
+    checked: {},
+})((props: RadioProps) => <Radio color="default" {...props} />);
+
 
 export default class PollInfo extends Component<Props, State> {
     constructor(props: Props) {
@@ -26,47 +43,51 @@ export default class PollInfo extends Component<Props, State> {
     };
 
     checkbox = (checked: any) => {
+
         if (checked == 1) {
             return (
                 <td className="checkbox-size center-text">
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                color="primary"
-                            />
-                        }
-                        label=""
-                        checked
+                    <GreenRadio
+                        checked={true}
                     />
                 </td>
             );
         } else if (checked == 0) {
             return (
                 <td className="checkbox-size center-text">
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                color="primary"
-                            />
-                        }
-                        label=""
-                        checked={false}
+                    <Radio
+                        checked={true}
                     />
                 </td>
             );
+        } else if (checked == 2) {
+            return (
+                <td className="checkbox-size center-text">
+                    <Radio
+                        checked={true}
+                        color="default"
+                    />
+                </td>
+            );
+        } else{
+            return(
+            <td className="checkbox-size center-text">
+                <h6>بدون رای</h6> 
+            </td>)
         }
     }
 
 
 
     render() {
-        const full = ( <tr>
+        const full = (
+        <tr>
             <th>
                 {this.props.name}
             </th>
-            {this.props.options ? this.props.options.map((option: any) => this.checkbox(option)) : <div/>}
+            {this.props.options ? this.props.options.map((option: any) => this.checkbox(option)) : <div />}
         </tr>)
-        
+
         return full;
     }
 }
@@ -74,7 +95,7 @@ export default class PollInfo extends Component<Props, State> {
 interface Props {
     name: any,
     options: any,
-    numOfOptions:any
+    numOfOptions: any
 }
 
 interface State {
