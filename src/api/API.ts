@@ -7,14 +7,15 @@ var API = axios.create({
 
 API.interceptors.request.use((config:any) => {
 
-	if (config.url.startsWith('/auth/login'))
+	if (config.url.startsWith('/auth/login') || config.url.startsWith('/auth/register'))
 		return config;
 	config.headers.Authorization = "Bearer " +localStorage.getItem('token');
 	return config;
 });
 
 API.interceptors.response.use(response => response, (error) => {
-	if (error.response.config.url.startsWith(`${error.response.config.baseURL}/auth/login`)){
+	if (error.response.config.url.startsWith(`${error.response.config.baseURL}/auth/login` ||
+	error.response.config.url === `${error.response.config.baseURL}/auth/register`)){
 			return Promise.reject(error);
 	}
 	if(error.response.status === 401 || error.response.status === 403){

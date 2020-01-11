@@ -16,6 +16,7 @@ export default class EditPoll extends Component<Props, State>  {
             options: [],
             pollId: 0,
             oId: -1,
+            closeDate:"",
             title: "",
             text: "",
             selects: [{
@@ -36,9 +37,10 @@ export default class EditPoll extends Component<Props, State>  {
                 toast.warn("این نظرسنجی به اتمام رسیده است.");
                 window.location.assign('/home');
             }
-
+            console.log(res);
             this.setState({
                 title: res.data[0].fields.title,
+                closeDate:res.data[0].fields.date_close,
                 pollId: res.data[0].fields.meeting
             })
             this.setState({
@@ -49,15 +51,21 @@ export default class EditPoll extends Component<Props, State>  {
                 for (var i = 0; i < optRes.data.length; i++) {
 
                     var temp = this.state.selects;
+                    var timeToken = optRes.data[i].fields.startTime;
+                    timeToken = timeToken.split(':');
+                    var start = timeToken[0] + ":" + timeToken[1];
 
+                    var timeToken = optRes.data[i].fields.endTime;
+                    timeToken = timeToken.split(':');
+                    var end = timeToken[0] + ":" + timeToken[1];
                     temp = ({
                         start: {
                             date: optRes.data[i].fields.date,
-                            time: optRes.data[i].fields.startTime
+                            time: start
                         },
                         end: {
                             date: optRes.data[i].fields.date,
-                            time: optRes.data[i].fields.endTime
+                            time: end
                         },
                         agreed: optRes.data[i].fields.agree,
                         disagreed: optRes.data[i].fields.disagree
@@ -237,7 +245,7 @@ export default class EditPoll extends Component<Props, State>  {
     option = (oId: any) => {
 
         return (
-            <div className="row mb-3">
+            <div className="row">
                 <div className="col-md-4">
                     <input
                         type="text"
@@ -253,7 +261,7 @@ export default class EditPoll extends Component<Props, State>  {
                     <input
                         type="text"
                         className="text-box "
-                        placeholder="زمان شروع"
+                        placeholder="زمان شروع: HH:MM"
                         name={"start_time-" + oId}
                         onChange={this.handleOptionInputChange}
                         value={this.state.selects[oId].start_time}
@@ -264,7 +272,7 @@ export default class EditPoll extends Component<Props, State>  {
                     <input
                         type="text"
                         className="text-box"
-                        placeholder="زمان پایان"
+                        placeholder="زمان پایان: HH:MM"
                         name={"end_time-" + oId}
                         onChange={this.handleOptionInputChange}
                         value={this.state.selects[oId].end_time}
@@ -304,6 +312,7 @@ export default class EditPoll extends Component<Props, State>  {
             text: this.state.text,
             participants: this.state.items,
             selects: options,
+            closeDate: this.state.closeDate,
             link: "http://localhost:3000/vote/"
         };
 
@@ -317,7 +326,7 @@ export default class EditPoll extends Component<Props, State>  {
         const participants = (
             <div className="row">
                 <div className="col-md-12">
-                    <label className="mt-3">
+                    <label>
                         <b>شرکت کنندگان</b>
                     </label>
 
@@ -338,7 +347,7 @@ export default class EditPoll extends Component<Props, State>  {
                     <input
                         className={(this.state.error && " has-error") + " text-box"}
                         value={this.state.value}
-                        placeholder="ایمیل شرکت ‌کننده را وارد نمایید"
+                        placeholder="ایمیل شرکت ‌کننده را وارد نمایید و enter نمایید"
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}
                     />
@@ -388,8 +397,23 @@ export default class EditPoll extends Component<Props, State>  {
                                     <div>
                                         {participants}
                                     </div>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <label>
+                                                <b>زمان بستن نظرسنجی</b>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="text-box"
+                                                placeholder="تاریخ: yyyy-mm-dd"
+                                                name="closeDate"
+                                                value={this.state.closeDate}
+                                                onChange={this.handleInputChange}  
+                                            />
+                                        </div>
+                                    </div>
                                     <div>
-                                        <label className="mt-3">
+                                        <label>
                                             <b>گزینه‌ها</b>
                                         </label>
 
@@ -399,7 +423,7 @@ export default class EditPoll extends Component<Props, State>  {
                                         <div className="col-sm-4">
                                             <button
                                                 type="submit"
-                                                className="signupbtn register-button mt-3"
+                                                className="signupbtn register-button"
                                             >
                                                 ثبت
 											</button>
@@ -432,6 +456,7 @@ interface State {
     oId: any,
     text: any,
     pollId: any,
+    closeDate:any,
     selects: [{
         date: any,
         start_time: any,

@@ -3,9 +3,9 @@ import Header from "src/views/common/Header";
 import Footer from "src/views/common/Footer";
 import "./Poll.scss";
 import { toast, ToastContainer } from "react-toastify";
-import { getPoll, Poll, getOptions, PollOption } from "src/api/PollAPI";
+import { getPoll, Poll, getOptions, PollOption, closePoll } from "src/api/PollAPI";
 import PollInfo from "src/views/poll/PollOption";
-import CommentBox from "src/views/common/CommentBox";
+import CommentBox from "src/views/comment/Comment";
 import { Link } from "react-router-dom";
 
 
@@ -19,6 +19,7 @@ export default class poll extends Component<Props, State> {
 				options: []
 			},
 			pollId: 0,
+			state: false,
 			status: false
 		}
 	}
@@ -37,7 +38,8 @@ export default class poll extends Component<Props, State> {
 			pollTemp.title = res.data[0].fields.title;
 			pollTemp.pollId = res.data[0].fields.meeting;
 			this.setState({
-				status:res.data[0].fields.state
+				state: res.data[0].fields.state,
+				status: res.data[0].fields.status
 			})
 			getOptions(params.pollId).then(optRes => {
 				for (var i = 0; i < optRes.data.length; i++) {
@@ -53,7 +55,8 @@ export default class poll extends Component<Props, State> {
 							time: optRes.data[i].fields.endTime
 						},
 						agreed: optRes.data[i].fields.agree,
-						disagreed: optRes.data[i].fields.disagree
+						disagreed: optRes.data[i].fields.disagree,
+						if_needed: optRes.data[i].fields.if_needed
 					});
 				}
 				this.setState({
@@ -63,12 +66,18 @@ export default class poll extends Component<Props, State> {
 		}).catch(error => { toast.warn(error.response); });
 	}
 
+	closePoll = ()=>{
+		closePoll(this.state.pollId).then((res) =>
+			toast.success('نظرسنجی با موفقیت بسته شد.')
+		)
+	}
+
 
 	render() {
 
 		const AllPollOptions = this.state.poll.options.map(option => {
 			return (
-				<PollInfo status={this.state.status} pollInfo={option} pollID={this.state.poll.pollId} />
+				<PollInfo status={this.state.state} pollInfo={option} pollID={this.state.poll.pollId} />
 			);
 		});
 		return (
@@ -77,10 +86,7 @@ export default class poll extends Component<Props, State> {
 				<main>
 					<div className="container h-100">
 						<div className="row justify-content-center align-items-center main-height">
-							<div className="col-md-3">
-								<CommentBox pollId={this.props.match.params.pollId} />
-							</div>
-							<div className="col-md-9">
+							<div className="col-md-12">
 								<form className="py-3 px-5">
 									<h1 className="center-text m-4">موضوع:{this.state.poll.title}</h1>
 									<div>
@@ -92,6 +98,7 @@ export default class poll extends Component<Props, State> {
 													<th scope="col">زمان پایان</th>
 													<th scope="col">تعداد موافقان</th>
 													<th scope="col">تعداد مخالفان</th>
+													<th scope="col">در صورت نیاز</th>
 													<th scope="col"> </th>
 												</tr>
 											</thead>
@@ -103,16 +110,48 @@ export default class poll extends Component<Props, State> {
 									<div>
 										<div>
 											<div className="col-4 center">
-												{this.state.status ? "" : (
-													<Link to={"/edit/" + this.state.poll.pollId}>
+												{this.state.state ? (
+													<Link to={"/mymeeting"}>
 														<button
 															type="submit"
 															className="click-button">
-															ویرایش
-													</button>
+															جلسات من
+												</button>
 													</Link>
-												)}
+												) : (
+														<Link to={"/edit/" + this.state.poll.pollId}>
+															<button
+																type="submit"
+																className="click-button">
+																ویرایش
+													</button>
+														</Link>
+													)}
+												<Link to={"/comment/" + this.state.poll.pollId}>
+													<button
+														type="submit"
+														className="click-button">
+														دیدن کامنت‌ها
+													</button>
+												</Link>
+												{!this.state.status ? (
+													<Link to={"/vote/" + this.state.poll.pollId}>
+													<button
+														type="submit"
+														className="click-button">
+														رای دادن
+													</button>
+												</Link>
+												) : ""}
 
+												{!this.state.status ? (
+													<button
+														type="submit"
+														className="click-button color-button"
+														onClick={this.closePoll}>
+														بستن نظرسنجی
+												</button>
+												) : ""}
 											</div>
 										</div>
 									</div>
@@ -135,6 +174,7 @@ interface Props {
 interface State {
 	poll: Poll;
 	pollId: any;
+	state: any;
 	status: any;
 }
 

@@ -19,3 +19,55 @@
 .checkbox-size {
     font-size: xx-large;
 }
+.MuiSvgIcon-root{
+    font-size: 1.9rem !important;
+}
+
+.button-size{
+
+    color: white;
+    padding: 14px 20px;
+    border-radius: 5px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.checkbox {
+    background-color: #fff;
+    border: solid 1px #d7d7d7;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    height: 32px;
+    margin-right: 1rem;
+    text-align: center;
+    width: 32px;
+    vertical-align: middle;
+
+    svg {
+        margin-top: 6px;
+        stroke: #fff;
+    }
+}
+
+.positive {
+    background-color: #4aca65;
+    border-color: #43b45b;
+}
+
+.negative {
+    background-color: #dc4e4e;
+    border-color: #c74545;
+}
+
+.label {
+    font-weight: bold;
+    vertical-align: middle;
+}
