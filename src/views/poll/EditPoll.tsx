@@ -326,7 +326,7 @@ export default class EditPoll extends Component<Props, State>  {
         const participants = (
             <div className="row">
                 <div className="col-md-12">
-                    <label className="mt-3">
+                    <label>
                         <b>شرکت کنندگان</b>
                     </label>
 
@@ -413,7 +413,7 @@ export default class EditPoll extends Component<Props, State>  {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="mt-3">
+                                        <label>
                                             <b>گزینه‌ها</b>
                                         </label>
 
@@ -423,7 +423,7 @@ export default class EditPoll extends Component<Props, State>  {
                                         <div className="col-sm-4">
                                             <button
                                                 type="submit"
-                                                className="signupbtn register-button mt-3"
+                                                className="signupbtn register-button"
                                             >
                                                 ثبت
 											</button>

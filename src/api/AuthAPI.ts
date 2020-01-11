@@ -7,3 +7,7 @@ export const login = (username:string , password:string)=>{
 export const registerUser = (user: object)=>{
     return API.post('/auth/register/', user);
 }
+
+export const getUserName = () =>{
+    return API.get('/auth/get_user/');
+}

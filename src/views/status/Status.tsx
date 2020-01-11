@@ -37,6 +37,7 @@ export default class Status extends Component<Props, State> {
             match: { params }
         } = this.props;
         getMeeting(params.reservationId).then((res) => {
+            console.log(res);
             var temp = this.state.reservedRoom;
             temp.title = res.data[0].fields.title;
             temp.pollId = res.data[0].fields.pollId;
@@ -45,7 +46,7 @@ export default class Status extends Component<Props, State> {
             temp.end.time = res.data[0].fields.endTime;
             temp.end.date = res.data[0].fields.date;
             temp.status = res.data[0].fields.status;
-            temp.roomNumber = params.room;
+            temp.roomNumber = res.data[0].fields.room;
             temp.isCancle = res.data[0].fields.isCancel;
             this.setState({
                 reservedRoom: temp
@@ -76,11 +77,11 @@ export default class Status extends Component<Props, State> {
             })
         }).catch(error => {
             if(error.response.status == 404){
-                alert(error.response.data);
+                toast.warn(error.response.data);
                 window.location.assign("/reservation/" + params.pollId + "/" + params.reservationId);
             }
             if(error.response.status == 405){
-                alert(error.response.data);
+                toast.warn(error.response.data);
                 // window.location.assign("/reservation/" + params.pollId + "/" + params.reservationId);
             }
         });

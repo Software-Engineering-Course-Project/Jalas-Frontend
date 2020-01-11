@@ -99,7 +99,8 @@ export default class Status extends Component<Props, State> {
             res.data.map((ans: any) => {
                 var temp = {
                     name: ans.name,
-                    vote: ans.votes
+                    vote: ans.votes,
+                    
                 }
                 this.setState({
                     participants: [...this.state.participants, temp]
@@ -110,7 +111,7 @@ export default class Status extends Component<Props, State> {
         canVote(params.pollId).then((res) => {
             if (res.data.value == 2)
                 window.location.assign('/home');
-            console.log(res);
+            
             this.setState({
                 canVote: res.data.value
             })
@@ -224,7 +225,7 @@ export default class Status extends Component<Props, State> {
     }
 
     voteOption = () => {
-        if (this.state.canVote == 1 && this.state.name == "") {
+        if (this.state.canVote == 1 && this.state.voterName == "") {
             return (
                 <tr>
                     <th>
@@ -240,7 +241,7 @@ export default class Status extends Component<Props, State> {
                     {this.checkbox(this.state.times.length)}
                 </tr>
             );
-        }else if(this.state.canVote == 1 && this.state.name != ""){
+        }else if(this.state.canVote == 1 && this.state.voterName != ""){
             return(
                 <tr>
                     <th>
@@ -256,7 +257,8 @@ export default class Status extends Component<Props, State> {
     editVote = ()=>{
         getVoterName(this.props.match.params.pollId).then((res)=>{
             this.setState({
-                name:res.data.name
+                name:res.data.name,
+                voterName:res.data.name
             })
         }).catch((err)=> toast.warn(err.response))
         this.setState({

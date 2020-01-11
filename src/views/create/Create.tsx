@@ -249,7 +249,7 @@ export default class Create extends Component<Props, State>  {
         const participants = (
             <div className="row">
                 <div className="col-md-12">
-                    <label className="mt-3">
+                    <label >
                         <b>شرکت کنندگان</b>
                     </label>
 
@@ -326,7 +326,7 @@ export default class Create extends Component<Props, State>  {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="mt-3">
+                                        <label >
                                             <b>گزینه‌ها</b>
                                         </label>
                                         {this.state.options}
